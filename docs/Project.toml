@@ -1,0 +1,3 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+FindSteadyStates = "5ce5e58b-649a-467a-bfd0-ccefe064e451"
