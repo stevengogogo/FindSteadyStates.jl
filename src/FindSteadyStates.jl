@@ -1,5 +1,13 @@
 module FindSteadyStates
 
-# Write your package code here.
+
+
+function fixedpoint_gen(func, ranges, RandNum, EqNum)
+
+
+end
+
+end
+
 
 end
