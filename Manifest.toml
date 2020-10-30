@@ -474,6 +474,12 @@ git-tree-sha1 = "95a4038d1011dfdbde7cecd2ad0ac411e53ab1bc"
 uuid = "90014a1f-27ba-587c-ab20-58faa44d9150"
 version = "0.10.1"
 
+[[PackageCompiler]]
+deps = ["Libdl", "Pkg", "UUIDs"]
+git-tree-sha1 = "3eee77c94646163f15bd8626acf494360897f890"
+uuid = "9b87118b-4619-50d2-8e1e-99f35a4d4d9d"
+version = "1.2.3"
+
 [[ParameterizedFunctions]]
 deps = ["DataStructures", "DiffEqBase", "Latexify", "LinearAlgebra", "ModelingToolkit", "Reexport"]
 git-tree-sha1 = "291279c720121d7f5c6a145726bb94da79e9b42c"

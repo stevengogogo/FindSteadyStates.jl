@@ -1,6 +1,7 @@
 using FindSteadyStates
 using Test
-
+using Parameters
+using DifferentialEquations
 @testset "FindSteadyStates.jl" begin
-    # Write your tests here.
+    @test include("solveODE.jl")
 end

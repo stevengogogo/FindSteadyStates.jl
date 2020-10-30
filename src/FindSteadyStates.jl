@@ -1,24 +1,11 @@
 module FindSteadyStates
 
-using DifferentialEquations
-using Parameters
+using DifferentialEquations: SteadyStateProblem, solve, AutoTsit5, Rosenbrock23
 
 
-
-include("Sampling.jl")
-include("Solve.jl")
-
-@with_kw struct domain
-    low::Number
-    high::Number
-end
-
-@with_kw struct 
-
-function fixedpoint_gen(func, ranges, RandNum, EqNum)
-
-
-end
+include("types.jl")
+include("sampling.jl")
+include("solve.jl")
 
 
 

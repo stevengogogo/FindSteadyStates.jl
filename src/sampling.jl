@@ -1,6 +1,6 @@
 module Sampling
 
-export universal
+export uniform, log_uniform
 
 function uniform(a::Number, b::Number)::Number
     return rand() * (b-a) + a
