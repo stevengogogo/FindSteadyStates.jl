@@ -16,10 +16,12 @@ function rand_vec(len::Integer, low_bound, high_bound) :: Array{Float64,1}
     return vec
 end
 
+
 function rand_vec(len::Integer, domain::Domain)
     vec = rand_vec(len, Domain.low, Domain.high)
 end
 
-function rand_vec(demeta::DEmeta)
-    vec = rand_vec()
+function rand_vec(demeta::DEmeta, domain::Domain)
+    len = length(demeta.u0)
+    vec = rand_vec(len, domain)
 end
