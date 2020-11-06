@@ -2,11 +2,19 @@
     "sample ode function"
     f(u,p,t) = -1.01*u
 
-    ExpDecay = FindSteadyStates.ODEfunc(func=f, p=1.0)
+    ExpDecay = FindSteadyStates.DEsteady(func=f, p=1.0, u0=3.0, SteadyStateMethod=Tsit5())
     u = 1.0
-    prob = SteadyStateProblem(ExpDecay.func, u, ExpDecay.p)
-    sol = solve(prob, FindSteadyStates.Default_SSMETHOD, reltol=1e-8, abstol=1e-8)
-    sol_ = FindSteadyStates.solve_SSODE(ExpDecay, u )
 
-    return sol.u == sol_.u
+    # Ordinary solving
+    prob = SteadyStateProblem(ExpDecay.func, u, ExpDecay.p)
+    sol = solve(prob, FindSteadyStates.Default_SSMETHOD)
+
+    # With finc, u, p  wrapper
+    sol_ = FindSteadyStates.solve_SSODE(ExpDecay.func, u, ExpDecay.p; method=ExpDecay.SteadyStateMethod )
+
+    # With ode prameters
+    sol_2 = FindSteadyStates.solve_SSODE(ExpDecay.func, u, ExpDecay.p; method=ExpDecay.SteadyStateMethod )
+
+    @test sol.u == sol_.u
+    @test sol_2.u == sol.u
 end

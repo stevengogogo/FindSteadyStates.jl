@@ -1,16 +1,23 @@
-export domain, ODEfunc
+export domain, ODEtime, DEsteady
 
-using Parameters
+abstract type DEmeta end
 
-@with_kw struct domain
-    low::Number
-    high::Number
+@kwdef struct ODEtime <: DEmeta
+    func
+    u0
+    p
+    tspan
 end
 
-@with_kw struct ODEfunc
+@kwdef struct DEsteady <: DEmeta
     func
     p
-    tspan = nothing
-    SteadyStateMethod=nothing
+    u0
+    SteadyStateMethod
+end
 
+
+@kwdef struct domain
+    low::Number
+    high::Number
 end

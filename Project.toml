@@ -6,6 +6,7 @@ version = "0.1.0"
 [deps]
 DiffEqBase = "2b5f629d-d688-5b77-993f-72d75c75574e"
 DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"
+Distributed = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 PackageCompiler = "9b87118b-4619-50d2-8e1e-99f35a4d4d9d"
 Parameters = "d96e819e-fc66-5662-9728-84c9c7592b0a"
 
