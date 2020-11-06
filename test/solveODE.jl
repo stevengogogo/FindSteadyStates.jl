@@ -15,6 +15,8 @@
     # With ode prameters
     sol_2 = FindSteadyStates.solve_SSODE(ExpDecay.func, u, ExpDecay.p; method=ExpDecay.SteadyStateMethod )
 
+    sol_3 = FindSteadyStates.solve_SSODE(ExpDecay)
+
     @test sol.u == sol_.u
     @test sol_2.u == sol.u
 end

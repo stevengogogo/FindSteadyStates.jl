@@ -14,8 +14,8 @@ function solve_SSODE(func, u, p; method= Default_SSMETHOD)
     return sol
 end
 
-function solve_SSODE(odefunc::DEsteady, u)
-    sol = solve_SSODE(odefunc.func, u, odefunc.p; method= odefunc.SteadyStateMethod)
+function solve_SSODE(odefunc::DEsteady)
+    sol = solve_SSODE(odefunc.func, odefunc.u0, odefunc.p; method= odefunc.SteadyStateMethod)
     return sol
 end
 

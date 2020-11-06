@@ -4,6 +4,7 @@ using Parameters
 using DifferentialEquations
 
 @testset "FindSteadyStates.jl" begin
+
     @testset "Solve ODE" begin
         include("solveODE.jl")
     end
@@ -11,4 +12,9 @@ using DifferentialEquations
     @testset "Multi-thread for steady states" begin
         include("multithread_SteadyStateProblem.jl")
     end
+
+    @testset "Sampling vector" begin
+        include("sampling_vector.jl")
+    end
+
 end

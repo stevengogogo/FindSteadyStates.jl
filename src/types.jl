@@ -1,4 +1,4 @@
-export domain, ODEtime, DEsteady
+export Domain, ODEtime, DEsteady
 
 abstract type DEmeta end
 
@@ -17,7 +17,7 @@ end
 end
 
 
-@kwdef struct domain
+@kwdef struct Domain
     low::Number
     high::Number
 end
