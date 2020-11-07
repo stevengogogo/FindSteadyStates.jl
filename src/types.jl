@@ -20,4 +20,12 @@ end
 @kwdef struct Domain
     low::Number
     high::Number
+    function Domain(low, high)
+        if low > high
+            @warn("Domain.low should <= Domain.high. Reset to Domain($low, $high)")
+            new(high, low)
+        else
+            new(low, high)
+        end
+    end
 end

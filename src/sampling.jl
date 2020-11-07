@@ -61,13 +61,37 @@ function (par::Log_uniform)(len::Integer) :: Array
     return base.^_pow
 end
 
+
+
 ## Sampling from de meta
 "generate random vector with uniform distribution `rand()`"
 function rand_vec(len::Integer, method::Sampler) :: Array{Float64,1}
     return method(len)
 end
 
+"Sampling a vector with a list of sampler
+
+# REPL
+```julia
+unis = [Uniform(1,2) for i in 1:10]
+vec = rand_vec(unis)
+```
+"
+function rand_vec(samplers::AbstractArray{T,1}) :: Array{Float64,1} where T<:Sampler 
+    return [samp() for samp in samplers]
+end
+
 "Uniform sampling of vector"
 rand_vecU(len::Integer, domain::Domain) = Uniform(domain.low, domain.high)(len)
 
 rand_vecU(demeta::DEmeta, domain::Domain) = rand_vecU(length(demeta.u0), domain)
+
+rand_vecU(demeta::DEmeta, domains::Array{Domain, 1}) = rand_vecU(length(demeta.u0), domains)
+
+function rand_vecU(len::Integer, domains::Array{Domain, 1})
+    vec = zeros(len)
+    for i in eachindex(vec)
+        vec[i] = Uniform(domains[i].low, domains[i].high)()
+    end
+    return vec
+end
