@@ -2,6 +2,7 @@ using FindSteadyStates
 using Test
 using Parameters
 using DifferentialEquations
+using BenchmarkTools
 
 @testset "FindSteadyStates.jl" begin
 
