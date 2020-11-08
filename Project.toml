@@ -12,6 +12,7 @@ PackageCompiler = "9b87118b-4619-50d2-8e1e-99f35a4d4d9d"
 Parameters = "d96e819e-fc66-5662-9728-84c9c7592b0a"
 
 [compat]
+BenchmarkTools = "0.5"
 DiffEqBase = "6.48"
 julia = "1"
 
