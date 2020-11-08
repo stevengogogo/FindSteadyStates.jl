@@ -44,8 +44,8 @@ v1 = uni_samp(len)
 v2 = log_samp(len)
 
 # sampling with domains
-v_ = rand_vecU(length(domains), domains)
-v_2 = rand_vecU(de, domains)
+
+v_2 = rand_vecU(domains)
 # Sampling a vector
 println("Sampling a vector")
 @time v3_1 = rand_vec(len, uni_samp)
@@ -67,22 +67,25 @@ println("Sampling a vector")
 @test (maximum(v4) <= domain.high) & (minimum(v4) >= domain.low)
 
 # v_
-@testset "sampling with domains. Input:length" for i in eachindex(v_)
-    num = v_[i]
-    d = domains[i]
-    @test num >= d.low
-    @test num <= d.high
+
+
+@testset "Sampling with domains. Input:ODEmeta" begin
+    err = 0
+    for i in eachindex(v_2)
+        num = v_2[i]
+        d = domains[i]
+        if !(num >= d.low)
+            err += 1
+        elseif !(num <= d.high)
+            err += 1
+        else
+            continue
+        end
+    end
+    @test err == 0
 end
 
-@testset "Sampling with domains. Input:ODEmeta" for i in eachindex(v_2)
-    num = v_[i]
-    d = domains[i]
-    @test num >= d.low
-    @test num <= d.high
 end
-
-end
-
 
 @testset "Sampling with samplers" begin
 
@@ -91,4 +94,16 @@ vec = rand_vec(samplers)
 
 @test length(vec) == length(samplers)
 
+end
+
+@testset "General method" begin
+    len = 10
+    general_samplers = [rand for i in 1:len]
+
+    ## Sampling
+    v1 = rand_vec(general_samplers)
+
+    v2 = rand_vecU([[1,2], [1,2], [1,2]])
+
+    @test len == length(v1)
 end

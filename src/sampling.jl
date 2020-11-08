@@ -77,7 +77,12 @@ unis = [Uniform(1,2) for i in 1:10]
 vec = rand_vec(unis)
 ```
 "
-function rand_vec(samplers::AbstractArray{T,1}) :: Array{Float64,1} where T<:Sampler 
+function rand_vec(samplers::AbstractArray{T,1}) :: Array{Float64,1} where T<:Sampler
+    return [samp() for samp in samplers]
+end
+
+"General method for sampling a vector with individual samplers"
+function rand_vec(samplers)
     return [samp() for samp in samplers]
 end
 
@@ -86,12 +91,21 @@ rand_vecU(len::Integer, domain::Domain) = Uniform(domain.low, domain.high)(len)
 
 rand_vecU(demeta::DEmeta, domain::Domain) = rand_vecU(length(demeta.u0), domain)
 
-rand_vecU(demeta::DEmeta, domains::Array{Domain, 1}) = rand_vecU(length(demeta.u0), domains)
 
-function rand_vecU(len::Integer, domains::Array{Domain, 1})
-    vec = zeros(len)
-    for i in eachindex(vec)
+
+function rand_vecU(domains::Array{Domain, 1})
+    vec = zeros(length(domains))
+    for i in eachindex(domains)
         vec[i] = Uniform(domains[i].low, domains[i].high)()
+    end
+    return vec
+end
+
+"General method. domains can be list of tuples"
+function rand_vecU(domains)
+    vec = zeros(length(domains))
+    for i in eachindex(domains)
+        vec[i] = Uniform(domains[i]...)()
     end
     return vec
 end
