@@ -1,9 +1,8 @@
 # Documentation: http://docs.travis-ci.com/user/languages/julia
 language: julia
 notifications:
-  email: false
+  email: stevengogogo4321@gmail.com
 julia:
-  - 1.0
   - 1.5
   - nightly
 os:
@@ -24,8 +23,8 @@ jobs:
     - arch: x86
       os: osx
   include:
-    - stage: Documentation
-      julia: 1
+    - stage: "Documentation"
+      julia: 1.5
       script: |
         julia --project=docs -e '
           using Pkg
