@@ -4,11 +4,11 @@ using Documenter
 makedocs(;
     modules=[FindSteadyStates],
     authors="= <stevengogogo4321@gmail.com> and contributors",
-    repo="https://github.com/=/FindSteadyStates.jl/blob/{commit}{path}#L{line}",
+    repo="https://github.com/stevengogogo/FindSteadyStates.jl/",
     sitename="FindSteadyStates.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://=.github.io/FindSteadyStates.jl",
+        canonical="https://stevengogogo.github.io/FindSteadyStates.jl",
         assets=String[],
     ),
     pages=[
