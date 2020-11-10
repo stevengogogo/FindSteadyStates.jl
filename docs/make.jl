@@ -3,8 +3,8 @@ using Documenter
 
 makedocs(;
     modules=[FindSteadyStates],
-    authors="= <stevengogogo4321@gmail.com> and contributors",
-    repo="https://github.com/stevengogogo/FindSteadyStates.jl/",
+    authors="Shao-Ting Steven Chiu",
+    repo="https://github.com/stevengogogo/FindSteadyStates.jl/blob/{commit}{path}#L{line}",
     sitename="FindSteadyStates.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
@@ -17,7 +17,5 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/stevengogogo/FindSteadyStates.jl.git",
-    target = "build",
-    push_preview = true,
+    repo="github.com/stevengogogo/FindSteadyStates.jl",
 )
