@@ -17,7 +17,7 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/stevengogogo/FindSteadyStates.jl",
+    repo="github.com/stevengogogo/FindSteadyStates.jl.git",
     target = "build",
     push_preview = true,
 )
