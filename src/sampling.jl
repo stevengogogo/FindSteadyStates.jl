@@ -109,3 +109,5 @@ function rand_vecU(domains)
     end
     return vec
 end
+
+## Grid search

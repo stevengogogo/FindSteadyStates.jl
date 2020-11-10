@@ -18,4 +18,8 @@ using BenchmarkTools
         include("sampling_vector.jl")
     end
 
+    @testset "Search functions" begin
+        include("search.jl")
+    end
+
 end

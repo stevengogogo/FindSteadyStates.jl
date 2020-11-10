@@ -17,6 +17,7 @@ end
 end
 
 
+
 @kwdef struct Domain
     low::Number
     high::Number
