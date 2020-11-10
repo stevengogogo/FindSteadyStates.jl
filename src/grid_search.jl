@@ -38,7 +38,7 @@ Base.size(self::ParameterGrid) = (Base.length(self),)
 ## Iterator 
 """Get the parameters that would be ```ind``` th in iteration
 
-The total sample number is \$n1\cdot n2 \cdot n3\$
+The total sample number is # to do 
 
 Paremeters 
 ----------
