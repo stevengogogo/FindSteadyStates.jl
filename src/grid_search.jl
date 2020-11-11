@@ -42,7 +42,7 @@ The total sample number is # to do
 
 Paremeters 
 ----------
-- `ind`{int}: The iteration index
+- `ind` {int}: The iteration index
 
 Returns
 -------
