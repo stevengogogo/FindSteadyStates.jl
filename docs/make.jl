@@ -14,7 +14,7 @@ makedocs(;
     pages=[
         "Home" => "front.md",
         "Grid Search" => "gridsearch.md",
-        "API" => "index.md"
+        "API" => "api.md"
     ],
 )
 
