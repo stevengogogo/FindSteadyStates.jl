@@ -2,24 +2,27 @@ using FindSteadyStates
 using Test
 using Parameters
 using DifferentialEquations
-using BenchmarkTools
 
 @testset "FindSteadyStates.jl" begin
 
     @testset "Solve ODE" begin
-        include("solveODE.jl")
+        println("Solve ODE")
+        @time include("solveODE.jl")
     end
 
     @testset "Multi-thread for steady states" begin
-        include("multithread_SteadyStateProblem.jl")
+        println("Multi-thread for steady states")
+        @time include("multithread_SteadyStateProblem.jl")
     end
 
     @testset "Sampling vector" begin
-        include("sampling_vector.jl")
+        println("Sampling vector")
+        @time include("sampling_vector.jl")
     end
 
     @testset "Search functions" begin
-        include("search.jl")
+        println("Search functions")
+        @time include("search.jl")
     end
 
 end
