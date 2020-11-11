@@ -52,7 +52,8 @@ Returns
 """
 function Base.getindex(self::ParameterGrid, ind::Int)
     vec_i = recursive_index(self.param_ranges, ind) # number in grid sample space
-    
+    #self.param_ranges
+    #TO DO
 end 
 
 
