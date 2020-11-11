@@ -6,6 +6,7 @@ The grid search algorithm provides a greedy way to exploring all the parameter s
 
 
 ## Usage 
+
 The ranges are specified in `ParameterGrid` in the following way:
 
 ```julia

@@ -19,7 +19,5 @@ makedocs(;
 )
 
 deploydocs(;
-    target = "build",
-    branch = "master",
     repo="github.com/stevengogogo/FindSteadyStates.jl.git",
 )
