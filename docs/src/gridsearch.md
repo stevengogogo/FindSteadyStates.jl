@@ -15,3 +15,7 @@ ranges = [(1.,10.,10), (1.,10.,20)] # (start, end, grid numer)
 param_range = ParameterGrid(ranges)
 
 ```
+
+
+## Reference
+1. grid_search.jl of ScikitLearn.jl . ([link](https://github.com/cstjean/ScikitLearn.jl/blob/master/src/grid_search.jl))

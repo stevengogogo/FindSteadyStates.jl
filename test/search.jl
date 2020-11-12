@@ -51,16 +51,35 @@ end
     @test length(para2) == total_is
 
     # Sampling: para 1
-    println("Sample the range: $ranges")
-    println("Print grid vecs: uniform distributed")
+    @info "Sample the range: $ranges"
+    @info "Print grid vecs: uniform distributed"
     for i in 1:1:length(para1)
         println(para1[i])
     end
 
     # Sampling Para 2
-    println("Print grid vecs: log distributed")
+    @info "Print grid vecs: log distributed"
     for i in 1:1:length(para2)
         println(para2[i])
     end
-    println("DONE")
+    @info "DONE"
+end
+
+
+@testset "Iterator of ParameterGrid" begin 
+
+    ranges = [ (1.,4.,4), (2.,8.,4), (1.,2.,2) ]
+    param = ParameterGrid(ranges)
+    @info "Display ranges ($ranges)" 
+
+    @testset "iteration" begin
+
+    
+    for (i,j) in enumerate(param )
+        println(j)
+        @test param[i] == j
+    end
+    end
+
+    @info "Done"
 end
