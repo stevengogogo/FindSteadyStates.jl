@@ -19,5 +19,6 @@ makedocs(;
 )
 
 deploydocs(;
+    branch = "gh-pages",
     repo="github.com/stevengogogo/FindSteadyStates.jl.git",
 )
