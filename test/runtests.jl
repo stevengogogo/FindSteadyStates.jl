@@ -6,24 +6,30 @@ using DifferentialEquations
 @testset "FindSteadyStates.jl" begin
 
     @testset "Solve ODE" begin
-        println("Solve ODE")
+        @info "Solve ODE"
         @time include("solveODE.jl")
     end
 
     @testset "Multi-thread for steady states" begin
-        println("Multi-thread for steady states")
+        @info "Multi-thread for steady states"
         @time include("multithread_SteadyStateProblem.jl")
     end
 
     @testset "Sampling vector" begin
-        println("Sampling vector")
+        @info "Sampling vector"
         @time include("sampling_vector.jl")
     end
 
     @testset "Search functions" begin
-        println("Search functions")
+        @info "Search functions"
         @time include("search.jl")
     end
+
+    @test "Solve with grid search" begin
+        @info "Solve with grid search"
+        @time include("solve_with_grid_search.jl")        
+    end 
+end
 
 end
 
