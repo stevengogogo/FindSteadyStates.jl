@@ -1,7 +1,10 @@
 # Grid search algorithm. 
 # Reference:  https://github.com/cstjean/ScikitLearn.jl/blob/master/src/grid_search.jl
 
-export ParameterGrid, recursive_index
+export ParameterGrid, recursive_index, UniformGrid, LogGrid
+
+abstract type GridDistribution end
+
 
 """Grid search iterator for parameters. The sequence of ranges defines the grids to search.
 
@@ -16,18 +19,34 @@ julia> ranges = [ (1.,10.,10.), (1.,10.,10.) ] # list of ranges (start_num, stop
 julia> param_range = ParameterRange(ranges)
 ```
 """
-struct ParameterGrid <: AbstractVector{Any}
+@with_kw struct ParameterGrid <: AbstractVector{Any}
     param_ranges 
     len 
     indexes 
+    grid_dist =UniformGrid()
 end
 
-function ParameterGrid(param_ranges)
+"""
+Construct parameter grid from list of ranges (`[start, end, grid_num]`). The grid distribution is default to be uniform. 
+"""
+function ParameterGrid(param_ranges; grid_dist= UniformGrid() :: GridDistribution, SHUFFLE=false )
 
     len = mul(Int,[ i[end] for i in param_ranges ])
     indexes = Array(1:1:len)
+    SHUFFLE ? shuffle!(indexes) : nothing # indexes to be sampled, shuffled
+    return ParameterGrid(param_ranges, len, indexes, grid_dist);
+end
+
+
+"""
+Grid object with ranges and distribution function 
+
+"""
+function ParameterGrid(param_ranges, grid_dist)
+    len = mul(Int,[ i[end] for i in param_ranges ])
+    indexes = Array(1:1:len)
     shuffle!(indexes) # indexes to be sampled, shuffledP
-    return ParameterGrid(param_ranges, len, indexes);
+    return ParameterGrid(param_ranges, len, indexes, grid_dist);
 end
 
 function Base.length(self::ParameterGrid)
@@ -51,11 +70,46 @@ Returns
 - `params`: list of numbers in the range of `ParameterGrid.param_ranges`
 """
 function Base.getindex(self::ParameterGrid, ind::Int)
-    vec_i = recursive_index(self.param_ranges, ind) # number in grid sample space
-    #self.param_ranges
-    #TO DO
+    ind_ = self.indexes[ind]
+    vec_i = recursive_index(self, ind_) # number in grid sample space
+    
+    values = zeros(length(vec_i))
+    for i in eachindex(values)
+        rang = self.param_ranges[i]
+        str,ed, grid_num = rang
+        values[i] = self.grid_dist(str,ed, grid_num,vec_i[i])
+    end 
+    return values
 end 
 
+"""
+get the number of a given range from index with uniform distribution.
+
+```julia-repl
+julia> FindSteadyStates.uniformGrid(1,10,3, 2)
+5
+```
+"""
+struct UniformGrid <: GridDistribution end  
+
+function (self::UniformGrid)(str_num, end_num, grid_num, ind) 
+    @assert end_num > str_num  # end number is bigger than start
+    @assert ind <= grid_num # grid size should greater or equal to the specified index
+    move = (end_num - str_num) / grid_num  # Step size
+    return str_num + move * (ind - 1.)
+end
+
+@with_kw struct LogGrid <: GridDistribution
+    decay = 10.
+end
+
+function (self::LogGrid)(str_num, end_num, grid_num, ind)
+    @assert end_num > str_num  # end number is bigger than start
+    @assert ind <= grid_num # grid size should greater or equal to the specified index
+    step = (end_num - str_num)
+    move = step/(self.decay)^(grid_num-ind)
+    return str_num + move 
+end
 
 """
 Recursive indexing.

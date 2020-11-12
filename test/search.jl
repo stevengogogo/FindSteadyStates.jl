@@ -35,3 +35,32 @@ end
 
 end
 
+## Indexing 
+@testset "get index for parameter generation" begin
+    # Ranges 
+    ranges = [ (1.,4.,4), (2.,8.,4), (1.,2.,2) ]
+    total_is = FindSteadyStates.mul([i[end] for i in ranges])
+
+    # Grid search samplers 
+    para1 = ParameterGrid(ranges; grid_dist=UniformGrid())
+    para2 = ParameterGrid(ranges; grid_dist=LogGrid(decay=10.))
+    
+
+    # number of index should equal to total grids.
+    @test length(para1) == total_is
+    @test length(para2) == total_is
+
+    # Sampling: para 1
+    println("Sample the range: $ranges")
+    println("Print grid vecs: uniform distributed")
+    for i in 1:1:length(para1)
+        println(para1[i])
+    end
+
+    # Sampling Para 2
+    println("Print grid vecs: log distributed")
+    for i in 1:1:length(para2)
+        println(para2[i])
+    end
+    println("DONE")
+end
