@@ -43,14 +43,11 @@ function solve_SSODE_threads(ode_func::DEmeta)
 end
 
 function solve_SSODE_threads(ode_func::DEmeta, us)
-  
-
 
     function prob_func(prob,i,repeat)
         ode_new = ode_func(us[i])
         remake(prob,u0 = ode_new.u0)
     end
-    
 
     prob = SteadyStateProblem(ode_func.func, ode_func.u0, ode_func.p)
 
