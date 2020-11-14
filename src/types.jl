@@ -23,6 +23,14 @@ References
     method= AutoTsit5(Rosenbrock23())
 end
 
+function (self::ODEtime)(u0; key=:u0)
+    u_ = deepcopy(getfield(self, key))
+    u_ .= u0 
+
+    return ODEtime(func= self.func, u0=u_, p=self.p, tspan=self.tspan, method=self.method)
+end
+
+
 """
 Struct for solving steady state of an differential equation model.
 
@@ -43,6 +51,16 @@ Reference
     u0
     method = Tsit5()
 end
+
+"""
+Update steady state meta, and return another DEsteady object
+"""
+function (self::DEsteady)(u0)
+    u_ = deepcopy(self.u0)
+    u_ .= u0 
+    return DEsteady(func= self.func, p=self.p, u0=u_, method=self.method)
+end
+
 
 
 @with_kw struct Domain

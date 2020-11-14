@@ -44,13 +44,11 @@ end
 
 function solve_SSODE_threads(ode_func::DEmeta, us)
   
-    function conv!(u_org, u_new)
-        u_org .= u_new
-    end
+
 
     function prob_func(prob,i,repeat)
-        u_ = deepcopy(ode_func.u0)
-        remake(prob,u0 = conv!(u_, us[i]))
+        ode_new = ode_func(us[i])
+        remake(prob,u0 = ode_new.u0)
     end
     
 

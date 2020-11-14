@@ -82,13 +82,32 @@ end
 end
 
 
+@info "Grid search: Single-core"
+@testset "Type renew" begin
+	param_gen = ParameterGrid([(0.1,5.,100), (0.1,5.,1000)])
+
+	de = DEsteady(func=bistable_ode!, p=p_, u0= u_1, method=Tsit5())
+	de_ = de([100.0,200.0])
+
+	@time sols = map(param_gen) do u
+		de_ = de(u) 
+		return solve(de_)
+	end
+
+	@test length(sols) == length(param_gen)
+	@test de_.u0 != de.u0
+end
+
+@info "Grid search: Multi-threading. With Number of threads = $(Threads.nthreads())"
 @testset "Find steady state with given region: Multi-threading" begin
-	param_gen = ParameterGrid([(0.1,5.,10), (0.1,5.,10)])
+
+	param_gen = ParameterGrid([(0.1,5.,100), (0.1,5.,100)])
 
 	de = DEsteady(func=bistable_ode!, p=p_, u0= u_1, method=Tsit5())
 
-	solve_SSODE_threads(de, param_gen)
+	@time sols = solve_SSODE_threads(de, param_gen)
 
+	@test length(sols) == length(param_gen)
 
 end
 
