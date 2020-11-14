@@ -15,7 +15,7 @@ Argument
 References
 1. [DifferentialEquations.jl](https://diffeq.sciml.ai/stable/tutorials/ode_example/)
 """
-@kwdef struct ODEtime <: DEmeta
+@with_kw struct ODEtime <: DEmeta
     func :: Function 
     u0
     p
@@ -26,8 +26,17 @@ end
 function (self::ODEtime)(u0; key=:u0)
     u_ = deepcopy(getfield(self, key))
     u_ .= u0 
+    
+    fnames = map(fieldnames(ODEtime)) do n
+        if n == key
+            val=  u0 
+        else 
+            val = getfield(self, n)
+        end
+        return val
+    end
 
-    return ODEtime(func= self.func, u0=u_, p=self.p, tspan=self.tspan, method=self.method)
+    return ODEtime(fnames...)
 end
 
 
@@ -45,7 +54,7 @@ Reference
 ---------
 1. [ODE solvers of DifferentialEquations.jl](https://diffeq.sciml.ai/stable/solvers/split_ode_solve/)
 """
-@kwdef struct DEsteady <: DEmeta
+@with_kw struct DEsteady <: DEmeta
     func  :: Function
     p
     u0
@@ -63,7 +72,7 @@ end
 
 
 
-@kwdef struct Domain
+@with_kw struct Domain
     low::Number
     high::Number
     function Domain(low, high)
