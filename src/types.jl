@@ -14,6 +14,7 @@ Argument
 
 References
 1. [DifferentialEquations.jl](https://diffeq.sciml.ai/stable/tutorials/ode_example/)
+
 """
 @with_kw struct ODEtime <: DEmeta
     func :: Function 
@@ -94,6 +95,8 @@ Argument
 Reference
 ---------
 1. [ODE solvers of DifferentialEquations.jl](https://diffeq.sciml.ai/stable/solvers/split_ode_solve/)
+
+
 """
 @with_kw struct DEsteady <: DEmeta
     func  :: Function
