@@ -13,6 +13,7 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
+        "Examples" => "examples.md",
         "Grid Search" => "gridsearch.md",
         "API" => "api.md"
     ],
