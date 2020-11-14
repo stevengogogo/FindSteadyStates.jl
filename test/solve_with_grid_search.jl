@@ -92,7 +92,7 @@ end
 	@time sols = map(param_gen) do u
 		de_ = de(u) 
 		return solve(de_)
-	end
+	end;
 
 	@test length(sols) == length(param_gen)
 	@test de_.u0 != de.u0
@@ -105,7 +105,7 @@ end
 
 	de = DEsteady(func=bistable_ode!, p=p_, u0= u_1, method=Tsit5())
 
-	@time sols = solve_SSODE_threads(de, param_gen)
+	@time sols = solve(de, param_gen)
 
 	@test length(sols) == length(param_gen)
 

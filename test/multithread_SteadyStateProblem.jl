@@ -27,8 +27,8 @@ p = [0.9,0.8]
 
 ode = DEsteady(func=f, p = p , u0=us, method=SSRootfind())
 
-@time sim = FindSteadyStates.solve_SSODE_threads(f, us, p; method= Tsit5())
-@time sim_ = FindSteadyStates.solve_SSODE_threads(ode) #Rootfind method 
+@time sim = solve_SSODE_threads(f, us, p; method= Tsit5())
+@time sim_ = solve_SSODE_threads(ode) #Rootfind method 
 
 
 @testset "compare solutions" for us_ in sim.u

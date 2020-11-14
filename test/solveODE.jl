@@ -12,7 +12,7 @@
     sol_ = solveSS(ExpDecay.func, ExpDecay.u0, ExpDecay.p; method=ExpDecay.method )
 
     # With ode prameters
-    sol_2 = FindSteadyStates.solve(ExpDecay)
+    sol_2 = solve(ExpDecay)
 
     # Solve Time-series
     de = ODEtime(func=f_, u0=3.0, p=1.0, tspan=(0.0,100.0), method= AutoTsit5(Rosenbrock23()))    
@@ -31,7 +31,5 @@ end
 
     solve(de)
 
-    solve_SSODE_threads(f_, us, Nothing)
-
-    solve_SSODE_threads(de, us)
+    @test length(solve(de, us)) == length(us) # mulit-threading mehod
 end
