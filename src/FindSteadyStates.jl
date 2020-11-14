@@ -1,11 +1,15 @@
 module FindSteadyStates
 
-using DifferentialEquations: SteadyStateProblem, solve, AutoTsit5, Rosenbrock23, EnsembleProblem, EnsembleThreads, remake
+import DifferentialEquations
+
+using DifferentialEquations: SteadyStateProblem, solve, Tsit5,AutoTsit5, Rosenbrock23, EnsembleProblem, EnsembleThreads, remake, ODEProblem, solve
+
+
 
 using Parameters
 using Random: shuffle!
 
-using Base: @kwdef
+
 
 include("types.jl")
 include("utils.jl")

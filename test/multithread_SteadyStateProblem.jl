@@ -8,7 +8,7 @@ us = [1,2,3] # vec
 p_ = 1
 u_ss_real = zeros(length(us))
 
-sim = FindSteadyStates.solve_SSODE_threads(de_func, us, p_)
+sim = solve_SSODE_threads(de_func, us, p_)
 res = flatten(get_sol2array(sim))
 
 @test isapprox(res, u_ss_real; atol=atol)
@@ -25,10 +25,10 @@ end
 us = [[1.,2.], [3.,4.], [5.,6.] ]
 p = [0.9,0.8]
 
-ode = DEsteady(func=f, p = p , u0=us, SteadyStateMethod=SSRootfind())
+ode = DEsteady(func=f, p = p , u0=us, method=SSRootfind())
 
-@time sim = FindSteadyStates.solve_SSODE_threads(f, us, p; method= Tsit5())
-@time sim_ = FindSteadyStates.solve_SSODE_threads(ode) #Rootfind method 
+@time sim = solve_SSODE_threads(f, us, p; method= Tsit5())
+@time sim_ = solve_SSODE_threads(ode) #Rootfind method 
 
 
 @testset "compare solutions" for us_ in sim.u

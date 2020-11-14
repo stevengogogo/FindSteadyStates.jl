@@ -23,18 +23,18 @@ julia> param_range = ParameterRange(ranges)
     param_ranges 
     len 
     indexes 
-    grid_dist =UniformGrid()
+    method =UniformGrid()
 end
 
 """
 Construct parameter grid from list of ranges (`[start, end, grid_num]`). The grid distribution is default to be uniform. 
 """
-function ParameterGrid(param_ranges; grid_dist= UniformGrid() :: GridDistribution, SHUFFLE=false )
+function ParameterGrid(param_ranges; method= UniformGrid() :: GridDistribution, SHUFFLE=false )
 
     len = mul(Int,[ i[end] for i in param_ranges ])
     indexes = Array(1:1:len)
     SHUFFLE ? shuffle!(indexes) : nothing # indexes to be sampled, shuffled
-    return ParameterGrid(param_ranges, len, indexes, grid_dist);
+    return ParameterGrid(param_ranges, len, indexes, method);
 end
 
 
@@ -42,11 +42,11 @@ end
 Grid object with ranges and distribution function 
 
 """
-function ParameterGrid(param_ranges, grid_dist)
+function ParameterGrid(param_ranges, method)
     len = mul(Int,[ i[end] for i in param_ranges ])
     indexes = Array(1:1:len)
     shuffle!(indexes) # indexes to be sampled, shuffledP
-    return ParameterGrid(param_ranges, len, indexes, grid_dist);
+    return ParameterGrid(param_ranges, len, indexes, method);
 end
 
 function Base.length(self::ParameterGrid)
@@ -77,7 +77,7 @@ function Base.getindex(self::ParameterGrid, ind::Int)
     for i in eachindex(values)
         rang = self.param_ranges[i]
         str,ed, grid_num = rang
-        values[i] = self.grid_dist(str,ed, grid_num,vec_i[i])
+        values[i] = self.method(str,ed, grid_num,vec_i[i])
     end 
     return values
 end 

@@ -1,5 +1,9 @@
 # Grid Search
 
+```julia
+using FindSteadyStates
+```
+
 ## Method 
 
 The grid search algorithm provides a greedy way to exploring all the parameter set. To use grid search method in `FindSteadyStates.jl`, the range of each agents can be assigned with the list of ranges. 
@@ -15,6 +19,19 @@ ranges = [(1.,10.,10), (1.,10.,20)] # (start, end, grid numer)
 param_range = ParameterGrid(ranges)
 
 ```
+
+```julia-repl
+julia> param_gen = ParameterGrid([(1.,10.,3), (4., 10., 2.)])
+6-element ParameterGrid:
+ [1.0, 4.0]
+ [4.0, 4.0]
+ [7.0, 4.0]
+ [1.0, 7.0]
+ [4.0, 7.0]
+ [7.0, 7.0]
+```
+
+
 
 
 ## Reference
