@@ -13,7 +13,7 @@ function solveSS(func, u, p; method= Default_SSMETHOD)
 end
 
 function DifferentialEquations.solve(odefunc::DEsteady) 
-    return solveSS(odefunc.func, odefunc.u0, odefunc.p; method= odefunc.SteadyStateMethod)
+    return solveSS(odefunc.func, odefunc.u0, odefunc.p; method= odefunc.method)
 end
 
 "Multi-thread version of steady-state solver
@@ -37,7 +37,27 @@ function solve_SSODE_threads(func, us, p ; method=Default_SSMETHOD)
 end
 
 function solve_SSODE_threads(ode_func::DEmeta)
-    sim = solve_SSODE_threads(ode_func.func, ode_func.u0, ode_func.p; method=ode_func.SteadyStateMethod)
+    sim = solve_SSODE_threads(ode_func.func, ode_func.u0, ode_func.p; method=ode_func.method)
+
+    return sim
+end
+
+function solve_SSODE_threads(ode_func::DEmeta, us)
+  
+    function conv!(u_org, u_new)
+        u_org .= u_new
+    end
+
+    function prob_func(prob,i,repeat)
+        u_ = deepcopy(ode_func.u0)
+        remake(prob,u0 = conv!(u_, us[i]))
+    end
+    
+
+    prob = SteadyStateProblem(ode_func.func, ode_func.u0, ode_func.p)
+
+    ensemble_prob = EnsembleProblem(prob,prob_func=prob_func)
+    sim = solve(ensemble_prob,ode_func.method,EnsembleThreads(),trajectories=length(us))
 
     return sim
 end

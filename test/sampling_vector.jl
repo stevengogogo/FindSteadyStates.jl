@@ -25,7 +25,7 @@ mean(vec) = sum(vec) / length(vec)
 down, up = 1.,100.
 len = 1000
 # de struct
-de = DEsteady(func=(x) -> x,p=0,u0=ones(len),SteadyStateMethod=Tsit5())
+de = DEsteady(func=(x) -> x,p=0,u0=ones(len),method=Tsit5())
 domain = Domain(down, up)
 
 domains = fill!(Array{Domain}(undef, len), Domain(down,up))

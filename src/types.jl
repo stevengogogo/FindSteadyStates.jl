@@ -31,7 +31,7 @@ Argument
 - `func`: ODE function. 
 - `u0`: initial values
 - `p`: parameters
-- `SteadyStateMethod`: Method for solving steady-states. (i.e. `DifferentialEqiations.Tsit5()`, `DifferentialEquations.AutoTsit5(Rosenbrock23())`) 
+- `method`: Method for solving steady-states. (i.e. `DifferentialEqiations.Tsit5()`, `DifferentialEquations.AutoTsit5(Rosenbrock23())`) 
 
 Reference
 ---------
@@ -41,7 +41,7 @@ Reference
     func  :: Function
     p
     u0
-    SteadyStateMethod
+    method = Tsit5()
 end
 
 

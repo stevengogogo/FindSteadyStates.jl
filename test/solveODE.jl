@@ -2,14 +2,14 @@
     "sample ode function"
     f_(u,p,t) = -1.01*u
 
-    ExpDecay = DEsteady(func=f_, p=1.0, u0=3.0, SteadyStateMethod=Tsit5())
+    ExpDecay = DEsteady(func=f_, p=1.0, u0=3.0, method=Tsit5())
 
     # Ordinary solving
     prob = SteadyStateProblem(ExpDecay.func, ExpDecay.u0, ExpDecay.p)
-    sol = solve(prob, ExpDecay.SteadyStateMethod)
+    sol = solve(prob, ExpDecay.method)
     
     # With finc, u, p  wrapper
-    sol_ = solveSS(ExpDecay.func, ExpDecay.u0, ExpDecay.p; method=ExpDecay.SteadyStateMethod )
+    sol_ = solveSS(ExpDecay.func, ExpDecay.u0, ExpDecay.p; method=ExpDecay.method )
 
     # With ode prameters
     sol_2 = FindSteadyStates.solve(ExpDecay)
@@ -22,3 +22,16 @@
     @test sol_2.u == sol.u
 end
 
+
+@testset "Threading" begin
+    f_(u,p,t) = -1.01*u
+    us = ParameterGrid([(1.,3.,3)])
+
+    de = DEsteady(func = f_, p=1.0, u0=us[1], method= Tsit5() )
+
+    solve(de)
+
+    solve_SSODE_threads(f_, us, Nothing)
+
+    solve_SSODE_threads(de, us)
+end

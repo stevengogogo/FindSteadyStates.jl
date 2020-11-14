@@ -2,7 +2,7 @@ module FindSteadyStates
 
 import DifferentialEquations
 
-using DifferentialEquations: SteadyStateProblem, solve, AutoTsit5, Rosenbrock23, EnsembleProblem, EnsembleThreads, remake, ODEProblem, solve
+using DifferentialEquations: SteadyStateProblem, solve, Tsit5,AutoTsit5, Rosenbrock23, EnsembleProblem, EnsembleThreads, remake, ODEProblem, solve
 
 using Parameters
 using Random: shuffle!

@@ -46,7 +46,7 @@ end
 	de1, de2 = [ DEsteady(func = bistable_ode!,
 							p=p_,
 							u0=u,
-							SteadyStateMethod= Tsit5()) 
+							method= Tsit5()) 
 							for u in [u_1, u_2] ]
 
 	sol1, sol2 = solve.([de1, de2])
@@ -60,7 +60,7 @@ end
         
 	param_gen = ParameterGrid([(0.1,5.,10), (0.1,5.,10)])
 
-	de = DEsteady(func=bistable_ode!, p=p_, u0= u_1, SteadyStateMethod=Tsit5())
+	de = DEsteady(func=bistable_ode!, p=p_, u0= u_1, method=Tsit5())
 
 	u_ = de.u0
 
@@ -77,6 +77,17 @@ end
 	for s in sols
 		println(s.u)
 	end
+
+
+end
+
+
+@testset "Find steady state with given region: Multi-threading" begin
+	param_gen = ParameterGrid([(0.1,5.,10), (0.1,5.,10)])
+
+	de = DEsteady(func=bistable_ode!, p=p_, u0= u_1, method=Tsit5())
+
+	solve_SSODE_threads(de, param_gen)
 
 
 end
