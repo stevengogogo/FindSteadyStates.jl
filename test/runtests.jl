@@ -2,6 +2,8 @@ using FindSteadyStates
 using Test
 using Parameters
 using DifferentialEquations
+using LabelledArrays
+#using Plots
 
 @testset "FindSteadyStates.jl" begin
 
@@ -25,11 +27,11 @@ using DifferentialEquations
         @time include("search.jl")
     end
 
-    @test "Solve with grid search" begin
+    @testset "Solve with grid search" begin
         @info "Solve with grid search"
         @time include("solve_with_grid_search.jl")        
     end 
 end
 
-end
+
 

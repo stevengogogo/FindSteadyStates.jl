@@ -1,4 +1,4 @@
-export solve_SSODE
+export solve_SSODE, solve_SSODE_threads, solve_time, solve
 
 
 const Default_SSMETHOD = AutoTsit5(Rosenbrock23())
@@ -6,19 +6,15 @@ const Default_SSMETHOD = AutoTsit5(Rosenbrock23())
 
 
 
-function solve_SSODE(func, u, p; method= Default_SSMETHOD)
+function solveSS(func, u, p; method= Default_SSMETHOD)
     #= ODE solver =#
-
     prob = SteadyStateProblem(func, u, p)
-    sol = solve(prob, method)
-    return sol
+    return DifferentialEquations.solve(prob, method)
 end
 
-function solve_SSODE(odefunc::DEsteady)
-    sol = solve_SSODE(odefunc.func, odefunc.u0, odefunc.p; method= odefunc.SteadyStateMethod)
-    return sol
+function DifferentialEquations.solve(odefunc::DEsteady) 
+    return solveSS(odefunc.func, odefunc.u0, odefunc.p; method= odefunc.SteadyStateMethod)
 end
-
 
 "Multi-thread version of steady-state solver
 
@@ -44,4 +40,10 @@ function solve_SSODE_threads(ode_func::DEmeta)
     sim = solve_SSODE_threads(ode_func.func, ode_func.u0, ode_func.p; method=ode_func.SteadyStateMethod)
 
     return sim
+end
+
+
+function DifferentialEquations.solve(ode_func::ODEtime)
+    prob = ODEProblem(ode_func.func, ode_func.u0, ode_func.tspan, ode_func.p)
+    return solve(prob; method=ode_func.method)
 end

@@ -42,8 +42,8 @@ end
     total_is = FindSteadyStates.mul([i[end] for i in ranges])
 
     # Grid search samplers 
-    para1 = ParameterGrid(ranges; grid_dist=UniformGrid())
-    para2 = ParameterGrid(ranges; grid_dist=LogGrid(decay=10.))
+    para1 = ParameterGrid(ranges; method=UniformGrid())
+    para2 = ParameterGrid(ranges; method=LogGrid(decay=10.))
     
 
     # number of index should equal to total grids.

@@ -1,4 +1,4 @@
-export Domain, ODEtime, DEsteady
+export Domain, ODEtime, DEsteady, solveSS
 
 abstract type DEmeta end
 
@@ -16,10 +16,11 @@ References
 1. [DifferentialEquations.jl](https://diffeq.sciml.ai/stable/tutorials/ode_example/)
 """
 @with_kw struct ODEtime <: DEmeta
-    func
+    func :: Function 
     u0
     p
     tspan
+    method= AutoTsit5(Rosenbrock23())
 end
 
 """
@@ -37,14 +38,14 @@ Reference
 1. [ODE solvers of DifferentialEquations.jl](https://diffeq.sciml.ai/stable/solvers/split_ode_solve/)
 """
 @with_kw struct DEsteady <: DEmeta
-    func
+    func  :: Function
     p
     u0
     SteadyStateMethod
 end
 
 
-@kwdef struct Domain
+@with_kw struct Domain
     low::Number
     high::Number
     function Domain(low, high)
