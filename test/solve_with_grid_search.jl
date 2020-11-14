@@ -70,7 +70,7 @@ end
 	
 	sols = map(param_gen) do u
 		u_ .= u 
-		de_ = DEsteady(u0=u_, de)
+		de_ = de(u_)
 		return solve(de_)
 	end # there is no significantly difference between using for loop and map. 
 

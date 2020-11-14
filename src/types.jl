@@ -15,7 +15,7 @@ Argument
 References
 1. [DifferentialEquations.jl](https://diffeq.sciml.ai/stable/tutorials/ode_example/)
 """
-@with_kw struct ODEtime <: DEmeta
+@kwdef struct ODEtime <: DEmeta
     func :: Function 
     u0
     p
@@ -45,7 +45,7 @@ Reference
 ---------
 1. [ODE solvers of DifferentialEquations.jl](https://diffeq.sciml.ai/stable/solvers/split_ode_solve/)
 """
-@with_kw struct DEsteady <: DEmeta
+@kwdef struct DEsteady <: DEmeta
     func  :: Function
     p
     u0
@@ -63,7 +63,7 @@ end
 
 
 
-@with_kw struct Domain
+@kwdef struct Domain
     low::Number
     high::Number
     function Domain(low, high)
