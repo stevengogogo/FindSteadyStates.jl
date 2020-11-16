@@ -1,4 +1,8 @@
 [deps]
+DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 FindSteadyStates = "5ce5e58b-649a-467a-bfd0-ccefe064e451"
+LabelledArrays = "2ee39098-c373-598a-b85f-a56591580800"
 OpenBLAS_jll = "4536629a-c528-5b80-bd46-f80d51c5b363"
+PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee"
+Weave = "44d3d7a6-8a23-5bf8-98c5-b353f8df5ec9"

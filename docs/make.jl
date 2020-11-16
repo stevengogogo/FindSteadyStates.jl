@@ -1,5 +1,7 @@
 using FindSteadyStates
 using Documenter
+using DifferentialEquations
+using LabelledArrays
 
 makedocs(;
     modules=[FindSteadyStates],
@@ -12,8 +14,8 @@ makedocs(;
         assets=String[],
     ),
     pages=[
-        "Home" => "index.md",
-        "Examples" => "examples.md",
+        "Home" => "home.md",
+        "examples" => "examples.md",
         "Grid Search" => "gridsearch.md",
         "API" => "api.md"
     ],

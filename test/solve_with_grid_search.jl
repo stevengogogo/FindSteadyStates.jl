@@ -84,9 +84,9 @@ end
 
 @info "Grid search: Single-core"
 @testset "Type renew" begin
-	param_gen = ParameterGrid([(0.1,5.,100), (0.1,5.,1000)])
+	param_gen = ParameterGrid([(0.,5.,100), (0.,5.,1000)])
 
-	de = DEsteady(func=bistable_ode!, p=p_, u0= u_1, method=Tsit5())
+	de = DEsteady(func=bistable_ode!, p=p_, u0= u_1, method=SSRootfind())
 	de_ = de([100.0,200.0])
 
 	@time sols = map(param_gen) do u

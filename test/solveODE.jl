@@ -2,7 +2,7 @@
     "sample ode function"
     f_(u,p,t) = -1.01*u
 
-    ExpDecay = DEsteady(func=f_, p=1.0, u0=3.0, method=Tsit5())
+    ExpDecay = DEsteady(func=f_, p=1.0, u0=3.0)
 
     # Ordinary solving
     prob = SteadyStateProblem(ExpDecay.func, ExpDecay.u0, ExpDecay.p)
