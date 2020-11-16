@@ -35,6 +35,7 @@ using LabelledArrays
     ax = plot([1,2],[3,4])
     fig.savefig("test.svg") # hide
     @info pwd()
+    @info 
 ```
 ![](test.svg)
 
