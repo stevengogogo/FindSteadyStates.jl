@@ -1,6 +1,5 @@
 using FindSteadyStates
 using Documenter
-using Plots
 using DifferentialEquations
 using LabelledArrays
 
