@@ -21,7 +21,7 @@ References
     u0
     p
     tspan
-    method= AutoTsit5(Rosenbrock23())
+    method= AutoTsit5(Rosenbrock23()) # For autonomaous detecion for stiff and non-stiff problem
 end
 
 
@@ -102,7 +102,7 @@ Reference
     func  :: Function
     p
     u0
-    method = Tsit5()
+    method = SSRootfind()
 end
 
 """

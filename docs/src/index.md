@@ -16,7 +16,7 @@ Exploring the steady states of ODE in given domain.
 ## Installation 
 
 ```sh
-]add https://github.com/stevengogogo/FindSteadyStates.jl
+] add https://github.com/stevengogogo/FindSteadyStates.jl
 ```
 
 
