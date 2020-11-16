@@ -38,7 +38,8 @@ jobs:
       steps:
         - name: Set up Python ${{ matrix.python-version }}
           uses: actions/setup-python@v2
-          with: python-version: '3'
+          with: 
+            python-version: '3'
         - name: Install dependencies
           run: |
                python -m pip install --upgrade pip
