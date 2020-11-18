@@ -107,3 +107,9 @@ end
 
     @test len == length(v1)
 end
+
+@testset "Random generator" begin 
+
+
+
+end

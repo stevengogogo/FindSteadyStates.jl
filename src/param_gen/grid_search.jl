@@ -3,7 +3,7 @@
 
 export ParameterGrid, recursive_index, UniformGrid, LogGrid
 
-abstract type GridDistribution end
+
 
 
 """Grid search iterator for parameters. The sequence of ranges defines the grids to search.
@@ -19,7 +19,7 @@ julia> ranges = [ (1.,10.,10.), (1.,10.,10.) ] # list of ranges (start_num, stop
 julia> param_range = ParameterRange(ranges)
 ```
 """
-@with_kw struct ParameterGrid <: AbstractVector{Any}
+@with_kw struct ParameterGrid <: ParameterGenerator
     param_ranges 
     len 
     indexes 
@@ -29,7 +29,7 @@ end
 """
 Construct parameter grid from list of ranges (`[start, end, grid_num]`). The grid distribution is default to be uniform. 
 """
-function ParameterGrid(param_ranges; method= UniformGrid() :: GridDistribution, SHUFFLE=false )
+function ParameterGrid(param_ranges; method= UniformGrid() :: GridSampler, SHUFFLE=false )
 
     len = mul(Int,[ i[end] for i in param_ranges ])
     indexes = Array(1:1:len)
@@ -90,7 +90,7 @@ julia> FindSteadyStates.uniformGrid(1,10,3, 2)
 5
 ```
 """
-struct UniformGrid <: GridDistribution end  
+struct UniformGrid <: GridSampler end  
 
 function (self::UniformGrid)(str_num, end_num, grid_num, ind) 
     @assert end_num > str_num  # end number is bigger than start
@@ -99,7 +99,7 @@ function (self::UniformGrid)(str_num, end_num, grid_num, ind)
     return str_num + move * (ind - 1.)
 end
 
-@with_kw struct LogGrid <: GridDistribution
+@with_kw struct LogGrid <: GridSampler
     decay = 10.
 end
 

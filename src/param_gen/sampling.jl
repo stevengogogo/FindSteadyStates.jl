@@ -1,13 +1,33 @@
 export Uniform, Log_uniform, rand_vec, rand_vecU
 
-## Type
-abstract type Sampler end
+
+@with_kw struct ParameterRandom <: ParameterGenerator
+    param_ranges # [(start,end),...]
+    len  # Total number of simulation
+    methods 
+end
+
+function (par::ParameterRandom)(param_ranges, len, dist::RandomSampler)
+    methods = Array{RandomSampler}(undef, length(param_ranges))
+    for i in eachindex(methods)
+        param_range = param_ranges[i]
+        methods[i] = dist(param_range[1], param_range[2])
+    end
+end
+
+function (par::ParameterRandom)(index, dist::RandomSampler)
+    methods = deepcopy(par.methods)
+    methods[index] = dist
+    return ParamRandom(par.param_ranges, par.len, methods)
+end
+
 
 ## Uniform
-"Sampler for uniform distribution"
-@with_kw struct Uniform <: Sampler
-    a::Number #lower bound
-    b::Number # higher bound
+"RandomSampler for uniform distribution"
+@with_kw struct Uniform <: RandomSampler
+    a=0.::Number #lower bound
+    b=1.::Number # higher bound
+    type= Float64
     function Uniform(a,b)
         if a>b
             @warn "b(=$b) should greater than a(=$a). Change to Uniform(a=$b,b=$a)"
@@ -18,9 +38,11 @@ abstract type Sampler end
     end
 end
 
+
 function (par::Uniform)() :: Number
     @unpack a, b = par
-    return rand() * (b - a) + a
+    num = rand() * (b - a) + a
+    return convert(par.type, num)
 end
 
 function (par::Uniform)(len::Integer) :: Array
@@ -29,11 +51,18 @@ function (par::Uniform)(len::Integer) :: Array
     return vec .* (b - a) .+ a
 end
 
+
+
+function (par::Uniform)(param_range)
+    return Uniform(param_range...)
+end
+
+
 ## Log uniform
-"Sampler for log uniform distribution. a,b ∈ (0,∞)"
-@with_kw struct Log_uniform <: Sampler
-    a :: Number
-    b :: Number
+"RandomSampler for log uniform distribution. a,b ∈ (0,∞)"
+@with_kw struct Log_uniform <: RandomSampler
+    a = 0.:: Number
+    b = 1.:: Number
     base :: Number = 10.
     function Log_uniform(a,b, base)
         @assert base > 0.
@@ -61,11 +90,13 @@ function (par::Log_uniform)(len::Integer) :: Array
     return base.^_pow
 end
 
-
+function (par::Log_uniform)(param_range)
+    return Log_uniform(param_range[1], param_range[2], par.base)
+end
 
 ## Sampling from de meta
 "generate random vector with uniform distribution `rand()`"
-function rand_vec(len::Integer, method::Sampler) :: Array{Float64,1}
+function rand_vec(len::Integer, method::RandomSampler) :: Array{Float64,1}
     return method(len)
 end
 
@@ -77,7 +108,7 @@ unis = [Uniform(1,2) for i in 1:10]
 vec = rand_vec(unis)
 ```
 "
-function rand_vec(samplers::AbstractArray{T,1}) :: Array{Float64,1} where T<:Sampler
+function rand_vec(samplers::AbstractArray{T,1}) :: Array{Float64,1} where T<:RandomSampler
     return [samp() for samp in samplers]
 end
 

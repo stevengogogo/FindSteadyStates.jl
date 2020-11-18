@@ -13,9 +13,10 @@ using Random: shuffle!
 
 include("types.jl")
 include("utils.jl")
-include("sampling.jl")
+include("param_gen/types.jl")
+include("param_gen/sampling.jl")
+include("param_gen/grid_search.jl")
 include("solve.jl")
-include("grid_search.jl")
 
 end
  
