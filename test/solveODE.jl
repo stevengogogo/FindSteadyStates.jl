@@ -23,7 +23,7 @@
 end
 
 
-@testset "Threading" begin
+@testset "Threading Grid" begin
     f_(u,p,t) = -1.01*u
     us = ParameterGrid([(1.,3.,3)])
 
@@ -33,3 +33,5 @@ end
 
     @test length(solve(de, us)) == length(us) # mulit-threading mehod
 end
+
+

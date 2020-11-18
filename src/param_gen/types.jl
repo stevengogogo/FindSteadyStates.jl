@@ -1,3 +1,5 @@
+export Sampler, RandomSampler, GridSampler, ParemeterGenerator
+
 abstract type Sampler end 
 
 abstract type RandomSampler <: Sampler end 

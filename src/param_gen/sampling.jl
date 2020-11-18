@@ -1,26 +1,58 @@
-export Uniform, Log_uniform, rand_vec, rand_vecU
+export Uniform, Log_uniform, rand_vec, rand_vecU, ParameterRandom   
 
 
 @with_kw struct ParameterRandom <: ParameterGenerator
-    param_ranges # [(start,end),...]
+    methods # Array of sampling generator. method should be callable
     len  # Total number of simulation
-    methods 
 end
 
-function (par::ParameterRandom)(param_ranges, len, dist::RandomSampler)
-    methods = Array{RandomSampler}(undef, length(param_ranges))
-    for i in eachindex(methods)
-        param_range = param_ranges[i]
-        methods[i] = dist(param_range[1], param_range[2])
-    end
+
+"""
+Set all the variables with same method with defined ranges
+"""
+function ParameterRandom(param_ranges, method::RandomSampler, len) 
+
+    methods = map(x-> method(x), param_ranges)
+   
+    return ParameterRandom(methods=methods, len=len)
 end
 
-function (par::ParameterRandom)(index, dist::RandomSampler)
+
+
+"""
+Reset one specified method
+"""
+function (par::ParameterRandom)(index::Integer, new_method::RandomSampler)
     methods = deepcopy(par.methods)
-    methods[index] = dist
-    return ParamRandom(par.param_ranges, par.len, methods)
+    methods[index] = new_method
+    return ParamRandom(methods, par.len)
 end
 
+"""Length of random sampler"""
+Base.length(self::ParameterRandom) = self.len 
+
+Base.size(self::ParameterRandom) = (self.len,)
+
+
+## Iterator 
+"""Get the parameters that would be ```ind``` th in iteration
+
+The total sample number is # to do 
+
+Paremeters 
+----------
+- `ind` {int}: The iteration index
+
+Returns
+-------
+- `params`: list of numbers in the range of `ParameterGrid.param_ranges`
+"""
+function Base.getindex(self::ParameterRandom, ind::Int)
+
+    params = map(v-> v() ,self.methods )
+    
+    return params
+end 
 
 ## Uniform
 "RandomSampler for uniform distribution"
@@ -28,21 +60,31 @@ end
     a=0.::Number #lower bound
     b=1.::Number # higher bound
     type= Float64
-    function Uniform(a,b)
+    function Uniform(a,b, type)
         if a>b
             @warn "b(=$b) should greater than a(=$a). Change to Uniform(a=$b,b=$a)"
-            new(b,a)
+            new(b,a, type)
         else
-            new(a,b)
+            new(a,b, type)
         end
     end
 end
 
+function Uniform(a, b;type=Float64)
+    return Uniform(a=a,b=b, type=type)
+end
 
 function (par::Uniform)() :: Number
     @unpack a, b = par
     num = rand() * (b - a) + a
-    return convert(par.type, num)
+
+    if par.type <: Integer
+        samp = round(num) # convert to integer
+    else
+        samp =  num
+    end
+
+    return samp
 end
 
 function (par::Uniform)(len::Integer) :: Array
@@ -52,46 +94,62 @@ function (par::Uniform)(len::Integer) :: Array
 end
 
 
-
+"""Reset parameter range but fixed the rest."""
 function (par::Uniform)(param_range)
-    return Uniform(param_range...)
+
+    return Uniform(param_range[1], param_range[2], par.type)
 end
 
 
 ## Log uniform
 "RandomSampler for log uniform distribution. a,b ∈ (0,∞)"
 @with_kw struct Log_uniform <: RandomSampler
-    a = 0.:: Number
-    b = 1.:: Number
-    base :: Number = 10.
-    function Log_uniform(a,b, base)
+    a = 1e-6:: Number # can not be zero
+    b = 1. :: Number
+    base = 10. :: Number 
+    type = Float64
+    function Log_uniform(a,b, base, type)
         @assert base > 0.
         @assert (a>0.) & (b > 0.)
         if a>b
             @warn "b(=$b) should greater than a(=$a). Change to Log_uniform(a=$b,b=$a)"
-            new(b,a,base)
+            new(b,a,base, type)
         else
-            new(a,b,base)
+            new(a,b,base, type)
         end
     end
+end
+
+function Log_uniform(a,b;base=10., type=Float64)
+    return Log_uniform(a=a, b=b, base=base, type=type)
 end
 
 function (par::Log_uniform)() :: Number
     @unpack a, b, base = par
     a_pow, b_pow = log.(base, [a, b])
-    _pow = Uniform(a_pow, b_pow)()
-    return base^_pow
+    _pow = Uniform(a_pow, b_pow, par.type)()
+
+    num = base^_pow
+
+    if par.type <: Integer
+        samp = round(num) # convert to integer
+    else
+        samp =  num
+    end
+    
+    return samp
+    
 end
 
+"""Generate a vector with same range."""
 function (par::Log_uniform)(len::Integer) :: Array
-    @unpack a, b, base = par
-    a_pow, b_pow = log.(base, [a, b])
-    _pow = Uniform(a_pow,b_pow)(len)
-    return base.^_pow
+    samp = Log_uniform(a=par.a, b=par.b, base=par.base, type=par.type)
+    return [samp() for i in 1:1:len]
 end
 
+"""Renew the range and keep the rest."""
 function (par::Log_uniform)(param_range)
-    return Log_uniform(param_range[1], param_range[2], par.base)
+    return Log_uniform(param_range[1], param_range[2], par.base, par.type)
 end
 
 ## Sampling from de meta

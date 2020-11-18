@@ -3,7 +3,8 @@ using Test
 using Parameters
 using DifferentialEquations
 using LabelledArrays
-#using Plots
+using Random
+using Plots
 
 @testset "FindSteadyStates.jl" begin
 
