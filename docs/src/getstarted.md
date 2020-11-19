@@ -1,3 +1,4 @@
+
 ```@setup exp
     using FindSteadyStates
     using DifferentialEquations
@@ -15,7 +16,7 @@ using DifferentialEquations
 
 The standard way to create DE system is to create a derivative function in the form of `f(du,u,p,t)` with preallocated derivatives (`du`), initial variables ('u'), parameters (`p`) and time ('t')
 
-```@example exp
+```@example exp; continued = true
 
 function bistable_ode!(du, u, p ,t)
 	s1, s2 = u
@@ -33,7 +34,7 @@ end
 ## Create DE Problem for Solving 
 
 
-```@example exp
+```@example exp; continued = true
 
 de = DEsteady(func = bistable_ode!,
          p =  [1.,1.,20.,20.,5.,5.,4.,4.],
@@ -48,7 +49,7 @@ de = DEsteady(func = bistable_ode!,
 
 The system is now well organized and ready to be solved.
 
-```@example exp
+```@example exp; continued = true
 
 sol = solve(de)
 
@@ -58,7 +59,7 @@ sol = solve(de)
 
 To find all the steady states, one needs to sample the initial state by grid or random search. To begin with, the `ParameterGrid` (grid search) and `ParameterRandom` (random search) are useful generator for iterating and returning the parameter set.
 
-```@example exp
+```@example exp; continued = true
 
     param_rand = ParameterRandom(
         methods= [
@@ -68,13 +69,18 @@ To find all the steady states, one needs to sample the initial state by grid or 
         len= 100
     )
 
-     param_grid = ParameterRandom(
-        methods= [
+     param_grid = ParameterGrid(
+        param_ranges= [
             [0.,100.,100],
             [0.,100.,100]
         ]
     )
 
+```
+
+```@example  exp; continued = true
+
+     println(param_grid)
 ```
 
 
@@ -83,7 +89,7 @@ To find all the steady states, one needs to sample the initial state by grid or 
 
 **Random Search**
 
-```@example exp
+```@example exp; continued = true
 
     sols_rand = solve(de, param_rand)
 

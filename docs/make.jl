@@ -15,11 +15,11 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
-        "Get started" => "get_started.md",
+        "Get started" => "getstarted.md",
         "Examples" => "examples.md",
         "Grid Search" => "gridsearch.md",
         "API" => "api.md"
-    ],
+    ]
 )
 
 deploydocs(;
