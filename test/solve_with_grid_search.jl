@@ -105,7 +105,7 @@ end
 
 	param_gen = ParameterGrid([(0.1,5.,100), (0.1,5.,100)])
 
-	de = DEsteady(func=bistable_ode!, p=p_, u0= u_1, method=Tsit5())
+	de = DEsteady(func=bistable_ode!, p=p_, u0= u_1, method=SSRootfind())
 
 	@time sols = solve(de, param_gen)
 

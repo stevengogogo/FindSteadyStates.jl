@@ -27,3 +27,9 @@ function mul(type, array1D)
     return convert(type, m)
 end
 
+
+function Base.unique(sols :: T; tol_digit=4) where T<: EnsembleSolution
+    sols_ = map( u->trunc.(u, digits=tol_digit), sols.u  )
+
+    return unique!(sols_)
+end

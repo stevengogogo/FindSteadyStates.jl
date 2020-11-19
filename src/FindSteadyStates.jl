@@ -3,12 +3,12 @@ module FindSteadyStates
 import DifferentialEquations
 import ModelingToolkit
 
-using DifferentialEquations: SteadyStateProblem, solve, Tsit5,AutoTsit5, Rosenbrock23, EnsembleProblem, EnsembleThreads, remake, ODEProblem, solve, SSRootfind
+using DifferentialEquations: SteadyStateProblem, solve, Tsit5,AutoTsit5, Rosenbrock23, EnsembleProblem, EnsembleThreads, remake, ODEProblem, solve, SSRootfind, EnsembleSolution
 
 using Random: shuffle!, rand
+using LinearAlgebra: eigvals
 
-
-using Parameters
+using Parameters: @with_kw, @unpack 
 
 
 
@@ -24,6 +24,8 @@ include("solve.jl")
 
 # Stability
 include("jacobian.jl")
+
+
 
 end
  
