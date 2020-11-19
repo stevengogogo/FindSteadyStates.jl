@@ -1,6 +1,6 @@
 name = "FindSteadyStates"
 uuid = "5ce5e58b-649a-467a-bfd0-ccefe064e451"
-authors = ["Shao-Ting Steven Chiu <stevengogogo4321@gmail.com>"]
+authors = ["= <stevengogogo4321@gmail.com> and contributors"]
 version = "0.1.0"
 
 [deps]
