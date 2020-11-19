@@ -18,12 +18,12 @@ using LabelledArrays
 
 # Exponential Decay 
 
-```@example tutorial ; continued = true
+```@example tutorial 
     deS = DEsteady(func=x->x, u0= [1.0,2.0], p=1.0)
 
 ```
 
-```@example tutorial ; continued = true
+```@example tutorial 
     deS = DEsteady(func=x->x, u0= [1.0,2.0], p=1.0)
 
 ```

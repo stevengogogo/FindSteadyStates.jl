@@ -11,4 +11,5 @@ CurrentModule = FindSteadyStates
 ParameterGrid
 ParameterRandom
 DEsteady
+jacobian
 ```

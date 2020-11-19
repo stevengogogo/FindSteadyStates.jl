@@ -16,7 +16,7 @@ using DifferentialEquations
 
 The standard way to create DE system is to create a derivative function in the form of `f(du,u,p,t)` with preallocated derivatives (`du`), initial variables ('u'), parameters (`p`) and time ('t')
 
-```@example exp; continued = true
+```@example exp
 
 function bistable_ode!(du, u, p ,t)
 	s1, s2 = u
@@ -25,6 +25,7 @@ function bistable_ode!(du, u, p ,t)
 	du[2] = k2/  (1 + (s1/K1)^n2) - k4*s2 
 end
 
+nothing # hide
 ```
 
 !!! tips "NameTuple may cause error"
@@ -34,13 +35,14 @@ end
 ## Create DE Problem for Solving 
 
 
-```@example exp; continued = true
+```@example exp
 
 de = DEsteady(func = bistable_ode!,
          p =  [1.,1.,20.,20.,5.,5.,4.,4.],
          u0 = [3.,1.],
          method = SSRootfind()
          )
+nothing # hide
 ```
 
 !!! tips "Method for solving steady state"
@@ -49,7 +51,7 @@ de = DEsteady(func = bistable_ode!,
 
 The system is now well organized and ready to be solved.
 
-```@example exp; continued = true
+```@example exp
 
 sol = solve(de)
 
@@ -59,29 +61,25 @@ sol = solve(de)
 
 To find all the steady states, one needs to sample the initial state by grid or random search. To begin with, the `ParameterGrid` (grid search) and `ParameterRandom` (random search) are useful generator for iterating and returning the parameter set.
 
-```@example exp; continued = true
+```@example exp
 
     param_rand = ParameterRandom(
         methods= [
             Uniform(0.,100.),
-            Uniform(0.,100.)
+            Log_uniform(0.001,100.)
         ],
         len= 100
     )
+```
 
-     param_grid = ParameterGrid(
-        param_ranges= [
+```@example exp 
+     param_grid = ParameterGrid([
             [0.,100.,100],
             [0.,100.,100]
-        ]
-    )
+        ])
 
 ```
 
-```@example  exp; continued = true
-
-     println(param_grid)
-```
 
 
 ## Solve solutions with multi-threading
@@ -89,7 +87,7 @@ To find all the steady states, one needs to sample the initial state by grid or 
 
 **Random Search**
 
-```@example exp; continued = true
+```@example exp
 
     sols_rand = solve(de, param_rand)
 
