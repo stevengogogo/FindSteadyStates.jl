@@ -1,7 +1,7 @@
 ```@setup tutorial
     using FindSteadyStates 
     using DifferentialEquations 
-    using LabelledArrays 
+
 ```
 
 
@@ -22,12 +22,12 @@ using LabelledArrays
 # Exponential Decay 
 
 ```@example tutorial
-    deS = DEsteady(func=x->x, u0= LVector(s1=1.0,s2=2.0), p=1.0)
+    deS = DEsteady(func=x->x, u0= [1.0,2.0], p=1.0)
 
 ```
 
 ```@example tutorial
-    deS = DEsteady(func=x->x, u0= LVector(s1=1.0,s2=2.0), p=1.0)
+    deS = DEsteady(func=x->x, u0= [1.0,2.0], p=1.0)
 
 ```
 

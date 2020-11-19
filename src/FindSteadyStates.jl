@@ -1,6 +1,7 @@
 module FindSteadyStates
 
 import DifferentialEquations
+import ModelingToolkit
 
 using DifferentialEquations: SteadyStateProblem, solve, Tsit5,AutoTsit5, Rosenbrock23, EnsembleProblem, EnsembleThreads, remake, ODEProblem, solve, SSRootfind
 
@@ -19,6 +20,9 @@ include("param_gen/grid_search.jl")
 
 # Solvers
 include("solve.jl")
+
+# Stability
+include("jacobian.jl")
 
 end
  

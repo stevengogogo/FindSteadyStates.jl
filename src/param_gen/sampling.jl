@@ -75,10 +75,10 @@ function Uniform(a, b;type=Float64)
 end
 
 function (par::Uniform)() :: Number
-    @unpack a, b = par
+    @unpack a, b, type = par
     num = rand() * (b - a) + a
 
-    if par.type <: Integer
+    if type <: Integer
         samp = round(num) # convert to integer
     else
         samp =  num
@@ -88,7 +88,7 @@ function (par::Uniform)() :: Number
 end
 
 function (par::Uniform)(len::Integer) :: Array
-    @unpack a, b = par
+    @unpack a, b, type = par
     vec = rand(len)
     return vec .* (b - a) .+ a
 end
@@ -125,13 +125,13 @@ function Log_uniform(a,b;base=10., type=Float64)
 end
 
 function (par::Log_uniform)() :: Number
-    @unpack a, b, base = par
+    @unpack a, b, base, type = par
     a_pow, b_pow = log.(base, [a, b])
-    _pow = Uniform(a_pow, b_pow, par.type)()
+    _pow = Uniform(a_pow, b_pow, type)()
 
     num = base^_pow
 
-    if par.type <: Integer
+    if type <: Integer
         samp = round(num) # convert to integer
     else
         samp =  num
