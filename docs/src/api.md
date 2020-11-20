@@ -39,7 +39,3 @@ jacobian
 StabilityType
 ```
 
-```@audodocs
-Modules = [FindSteadyStates,]
-Private = false
-```

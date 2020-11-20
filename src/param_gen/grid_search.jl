@@ -14,12 +14,12 @@ Parameters
 
 Examples
 --------
-```jldoctest
+```julia-repl
 julia> ranges = [ (1.,10.,10.), (1.,10.,10.) ] # list of ranges (start_num, stop_num, number of grids`{int}`)
 julia> param_range = ParameterRange(ranges)
 ```
 
-```jldoctest
+```julia-repl
 
 julia> ParameterGrid([ [1,1000,5], [1,3,1]]; method=LogGrid())
 5-element ParameterGrid:
@@ -107,7 +107,7 @@ end
 """
 get the number of a given range from index with uniform distribution.
 
-```jldoctest
+```julia-repl
 julia> FindSteadyStates.uniformGrid(1,10,3, 2)
 5
 ```
@@ -139,7 +139,7 @@ This function uses list of ranges and index to provide a vector of indexes.
 
 Example
 -------
-```jldoctest 
+```julia-repl 
 julia> ranges = [(1,2,2), (4,45,2)]
 julia> param_range = ParameterGrid(ranges)
 julia> vec_i = recursive_index(param_range, 4)

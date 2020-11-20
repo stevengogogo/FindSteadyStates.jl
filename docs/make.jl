@@ -1,7 +1,7 @@
 using FindSteadyStates
 using Documenter
 using DifferentialEquations
-
+using LabelledArrays
 
 makedocs(;
     modules=[FindSteadyStates],

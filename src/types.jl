@@ -49,7 +49,7 @@ Arguement
 
 Example
 -------
-```jldoctest
+```julia-repl
 julia> using LabelledArrays, DifferentialEqiations
 julia> u = LVector(s1=1.0,s2=0.2)
 2-element LArray{Float64,1,Array{Float64,1},(:s1, :s2)}:
@@ -122,7 +122,7 @@ Example
 -------
 
 
-```jldoctest
+```julia-repl
 julia> using LabelledArrays, DifferentialEqiations
 julia> deS = DEsteady(func=x->x, u0= LVector(s1=1.0,s2=2.0), p=1.0)
 DEsteady
