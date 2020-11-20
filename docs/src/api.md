@@ -1,5 +1,8 @@
 ```@meta
 CurrentModule = FindSteadyStates
+DocTestSetup  = quote
+    using MyPackage
+end
 ```
 
 # FindSteadyStates
@@ -18,6 +21,7 @@ ParameterRandom
 ```@docs
 DEsteady
 ODEtime
+FindSteadyStates.DEmeta
 ```
 
 ## Solvers
@@ -36,6 +40,6 @@ StabilityType
 ```
 
 ```@audodocs
-Modules = [FindSteadyStates]
+Modules = [FindSteadyStates,]
 Private = false
 ```

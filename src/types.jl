@@ -1,5 +1,11 @@
 export Domain, ODEtime, DEsteady, solveSS
 
+
+"""
+    DEmeta
+
+Meta inofmration of differential equation. The family of ['DEmeta'](@ref) 
+"""
 abstract type DEmeta end
 
 """
@@ -16,7 +22,6 @@ Argument
 
 References
 ----------
-
 
 1. [DifferentialEquations.jl](https://diffeq.sciml.ai/stable/tutorials/ode_example/)
 
@@ -77,7 +82,6 @@ julia> de.u0
  :s1 => 1.0
  :s2 => 0.2
 ```
-
 """
 @with_kw struct ODEtime <: DEmeta
     func :: Function 
