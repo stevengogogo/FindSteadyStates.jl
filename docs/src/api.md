@@ -7,6 +7,9 @@ CurrentModule = FindSteadyStates
 ```@index
 ```
 
-```@autodocs
-Modules = [FindSteadyStates]
+```@docs
+ParameterGrid
+ParameterRandom
+DEsteady
+jacobian
 ```

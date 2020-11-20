@@ -107,3 +107,33 @@ end
 
     @test len == length(v1)
 end
+
+@testset "Random generator" begin 
+
+ParameterGrid([[1,2,3],[1,3,4]])
+param_ranges = [[1.,10.],[1.,20.]]
+sam = Uniform(0,1, Int)
+sam2  = Uniform(0,10)
+l = Log_uniform(0.12,13, 10.0,Int)
+l2 = Log_uniform(0.12,1,100., Float64)
+
+len = 10
+
+gen1 = ParameterRandom([sam, sam2, l, l2], 100000)
+
+gen2 = ParameterRandom(param_ranges, sam,  len)
+gen3 = ParameterRandom(param_ranges, l, len )
+
+@test length(gen2) == length(gen3)
+@test gen2.methods[1] == sam(param_ranges[1])
+
+
+# Plotting
+p1= Plots.histogram([i[1] for i in gen1], title="Uniform Integer"); # Uniform(0,1, Int)
+p2 =Plots.histogram([i[2] for i in gen1], title="Uniform"); # Uniform(0,10)
+p3 = Plots.histogram([i[3] for i in gen1], title="Log Integer"); # Log_uniform(0.12,13, 10.0,Int)
+p4 = Plots.histogram([i[4] for i in gen1], title="Log"); # Log_uniform(0.12,1,100., Float64)
+
+Plots.plot(p1,p2,p3,p4)
+
+end

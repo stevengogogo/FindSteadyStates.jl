@@ -1,6 +1,7 @@
-export get_sol2array, flatten
-"Get the vector of vectors of results. `sol` can be `:EnsembleSolution` or other solutions from `DifferentialEquations.solve`
-"
+export get_sol2array, flatten, unique
+
+"""Get the vector of vectors of results. `sol` can be `:EnsembleSolution` or other solutions from `DifferentialEquations.solve`
+"""
 get_sol2array(sol) = getfield.(sol.u, :u)
 
 flatten(arr_arrs) = collect(Iterators.flatten(arr_arrs))
@@ -27,3 +28,9 @@ function mul(type, array1D)
     return convert(type, m)
 end
 
+
+function Base.unique(sols :: T; tol_digit=4) where T<: EnsembleSolution
+    sols_ = map( u->trunc.(u, digits=tol_digit), sols.u  )
+    unique!(sols_)
+    return sols_
+end
