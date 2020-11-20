@@ -88,10 +88,23 @@ end
     end
 end
 
+"""
+    Uniform(a,b;type=Float64)
+Create uniform sampler.
+"""
 function Uniform(a, b;type=Float64)
     return Uniform(a=a,b=b, type=type)
 end
 
+"""
+    (par::Uniform)()
+
+generate random variables.
+
+See also
+--------
+`Random.rand`
+"""
 function (par::Uniform)() :: Number
     @unpack a, b, type = par
     num = rand() * (b - a) + a

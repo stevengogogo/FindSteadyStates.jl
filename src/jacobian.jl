@@ -9,6 +9,11 @@ export jacobian,  StabilityType
     t
 end
 
+"""
+    StabilityType 
+
+Store the information about stability.
+"""
 @with_kw struct StabilityType
     stable ::Bool 
     unstable ::Bool 
