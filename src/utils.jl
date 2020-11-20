@@ -1,4 +1,5 @@
-export get_sol2array, flatten
+export get_sol2array, flatten, unique, is_unstable, is_saddle, is_stable
+
 """Get the vector of vectors of results. `sol` can be `:EnsembleSolution` or other solutions from `DifferentialEquations.solve`
 """
 get_sol2array(sol) = getfield.(sol.u, :u)
@@ -30,6 +31,6 @@ end
 
 function Base.unique(sols :: T; tol_digit=4) where T<: EnsembleSolution
     sols_ = map( u->trunc.(u, digits=tol_digit), sols.u  )
-
-    return unique!(sols_)
+    unique!(sols_)
+    return sols_
 end

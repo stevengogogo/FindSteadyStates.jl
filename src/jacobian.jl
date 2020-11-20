@@ -1,9 +1,12 @@
-export jacobian
+export jacobian, is_unstable, is_saddle, is_stable, jacobian_feature
 
 
 @with_kw struct jacobian 
     ode
     jac_func
+    u
+    p
+    t
 end
 
 """
@@ -28,7 +31,7 @@ function jacobian(ode, u, p; t=nothing)
     de =  ModelingToolkit.modelingtoolkitize(prob)
     jac_func =  eval(ModelingToolkit.generate_jacobian(de)[2])
 
-    return jacobian(ode=ode, jac_func=jac_func)
+    return jacobian(ode=ode, jac_func=jac_func, u=u, p=p, t=t)
 end
 
 """Use DEmeta for jacobian generation"""
@@ -46,3 +49,89 @@ function (self::jacobian)(u,p;t=nothing)
     return j
 end
 
+
+"""
+Get jacobian from state variable with default paramter set
+"""
+function (self::jacobian)(u;t=nothing)
+    return self(u, self.p; t=t)
+end
+
+"""
+Get jacobian from default state.
+"""
+function (self::jacobian)()
+    return self(self.u, self.p; t=self.t)
+end
+
+
+
+@with_kw struct jacobian_feature
+    stable ::Bool 
+    unstable ::Bool 
+    saddle  ::Bool 
+    damping ::Bool 
+end
+
+function jacobian_feature(jac_matrix)
+    es = eigvals(jac_matrix)
+
+    return jacobian_feature(
+    stable = is_stable(es),
+    unstable = is_unstable(es),
+    saddle = is_saddle(es),
+    damping = is_damping(es)
+    )
+end
+
+
+"""
+Stability identification
+"""
+function is_stable(es) :: Bool
+    method(e) = real(e) >= 0. ? true : false 
+    return judge_jac(es, method, true)
+end
+
+"""
+Unstability identification
+"""
+function is_unstable(es) :: Bool
+    method(e) = real(e) >= 0. ? true : false 
+    return judge_jac(es, method, false)
+end
+
+"""
+Damping identification
+"""
+function is_damping(es) :: Bool
+   method(e) = imag(e) != 0. ? true : false 
+   return judge_jac(es, method, false)
+end
+
+"""
+Saddle point identification
+"""
+function is_saddle(es) :: Bool 
+    real_es = real.(es)
+    if (maximum(real_es) > 0. ) & (minimum(real_es) < 0.)
+        saddle = true
+    else 
+        saddle = false
+    end
+    return saddle
+end
+
+"""
+General method for judging jacobian 
+"""
+function judge_jac(es, eigval_method, default_bool)
+    feature = default_bool
+    for e in es
+        if eigval_method(e) 
+            feature = !feature
+            break 
+        end
+    end
+    return feature
+end
