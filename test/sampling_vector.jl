@@ -127,6 +127,7 @@ gen3 = ParameterRandom(param_ranges, l, len )
 @test length(gen2) == length(gen3)
 @test gen2.methods[1] == sam(param_ranges[1])
 
+
 # Plotting
 p1= Plots.histogram([i[1] for i in gen1], title="Uniform Integer"); # Uniform(0,1, Int)
 p2 =Plots.histogram([i[2] for i in gen1], title="Uniform"); # Uniform(0,10)

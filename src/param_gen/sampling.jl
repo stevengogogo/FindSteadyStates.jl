@@ -17,7 +17,25 @@ function ParameterRandom(param_ranges, method::RandomSampler, len)
     return ParameterRandom(methods=methods, len=len)
 end
 
+"""
+Parameter Random sampling with `range`.
+"""
+function ParameterRandom(param_ranges::AbstractArray{T,1};method=Uniform()::RandomSampler, len=nothing) where T<:AbstractRange
 
+    param_ranges_ = Array{Tuple{Number,Number},1}(undef,length(param_ranges)) # [(start,end),...]
+
+    len_ = 1
+
+    for (i, ran) in enumerate(param_ranges)
+        par_rang = (ran[1], ran[end])
+        len_ = len_ * length(ran)
+        param_ranges_[i] = par_rang
+    end
+
+    len_ = isnothing(len) ? len_ : len # if user-defined len_
+
+    return ParameterRandom(param_ranges_, method, len_)
+end
 
 """
 Reset one specified method

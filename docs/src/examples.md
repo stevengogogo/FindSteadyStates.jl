@@ -38,7 +38,54 @@ using LabelledArrays
 
 # Bistable Model
 
+There are two stable nodes and one saddle nodes in balanced bistable model.
 
+```@example tutorial
+
+# Model
+function bistable_ode!(du, u, p ,t)
+    s1, s2 = u
+    K1, K2, k1, k2, k3, k4, n1 , n2  = p
+    du[1] = k1 / (1 + (s2/K2)^n1) - k3*s1
+    du[2] = k2/  (1 + (s1/K1)^n2) - k4*s2 
+end
+
+# Parameters
+p_ = [1., 1., 20., 20., 5., 5.,  4., 4.]
+u_1 = [3., 1.]
+
+
+# Define a problem
+de = DEsteady(func=bistable_ode!, p=p_, u0= u_1, method=SSRootfind())
+
+j_gen = jacobian(de) # jacobian generator
+
+# Searching method and domain
+param_gen = ParameterGrid([
+            (0.1,5.,100), 
+            (0.1,5.,100)
+            ])
+
+# Solve
+sols = solve(de, param_gen)
+
+# Remove redundancy
+steadies = unique(sols)
+
+# Jacobian
+jac_ms = j_gen.(steadies)
+
+# Stability
+stab_modes = StabilityType.(jac_ms)
+
+
+# Testing and validation
+num_stable = sum(getfield.(stab_modes, :stable))
+num_saddle = sum(getfield.(stab_modes, :saddle))
+
+println("num_stable=$(num_stable)") # hide
+println("num_saddle=$(num_saddle)") # hide
+```
 
 
 

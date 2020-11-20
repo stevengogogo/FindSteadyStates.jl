@@ -1,4 +1,4 @@
-export get_sol2array, flatten, unique, is_unstable, is_saddle, is_stable
+export get_sol2array, flatten, unique
 
 """Get the vector of vectors of results. `sol` can be `:EnsembleSolution` or other solutions from `DifferentialEquations.solve`
 """

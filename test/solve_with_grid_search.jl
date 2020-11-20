@@ -88,15 +88,15 @@ end
 	param_gen = ParameterGrid([(0.,5.,100), (0.,5.,1000)])
 
 	de = DEsteady(func=bistable_ode!, p=p_, u0= u_1, method=SSRootfind())
-	de_ = de([100.0,200.0])
+	de_new = de([100.0,200.0])
 
 	@time sols = map(param_gen) do u
-		de_ = de(u) 
-		return solve(de_)
+		de_i = de(u) 
+		return solve(de_i)
 	end;
 
 	@test length(sols) == length(param_gen)
-	@test de_.u0 != de.u0
+	@test de_new.u0 != de.u0
 end
 
 

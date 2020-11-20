@@ -1,4 +1,4 @@
-export jacobian, is_unstable, is_saddle, is_stable, jacobian_feature
+export jacobian,  StabilityType
 
 
 @with_kw struct jacobian 
@@ -8,6 +8,14 @@ export jacobian, is_unstable, is_saddle, is_stable, jacobian_feature
     p
     t
 end
+
+@with_kw struct StabilityType
+    stable ::Bool 
+    unstable ::Bool 
+    saddle  ::Bool 
+    damping ::Bool 
+end
+
 
 """
 Construct the jacobian struct type
@@ -66,17 +74,10 @@ end
 
 
 
-@with_kw struct jacobian_feature
-    stable ::Bool 
-    unstable ::Bool 
-    saddle  ::Bool 
-    damping ::Bool 
-end
-
-function jacobian_feature(jac_matrix)
+function StabilityType(jac_matrix)
     es = eigvals(jac_matrix)
 
-    return jacobian_feature(
+    return StabilityType(
     stable = is_stable(es),
     unstable = is_unstable(es),
     saddle = is_saddle(es),
