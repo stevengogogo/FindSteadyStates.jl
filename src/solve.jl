@@ -13,25 +13,24 @@ function solveSS(func, u, p; method= Default_SSMETHOD)
 end
 
 
+"""
+    solve(ode_func::DEsteady, us; ensemble_method=EnsembleThreads())
+    solve(ode_func::DEsteady) 
+    solve(ode_func::ODEtime)
+    solve(ode_func::ODEtime, us; ensemble_method=EnsembleThreads()) 
 
-function DifferentialEquations.solve(ode_func::DEsteady) 
-    @unpack func, u0, method, p = ode_func
-    return solveSS(func, u0, p; method= method)
-end
+Extanded solver for steady state and time-series. The ['DEmeta'](@ref) type provides the information of differential equations ('func'), initial variables ('u') and parameters ('p'). With [`DEsteady`](@ref) and ['ODEtime'](@ref)
 
-function DifferentialEquations.solve(ode_func::ODEtime)
-    @unpack func, u0, tspan, p, method = ode_func
-    prob = ODEProblem(func, u0, tspan, p)
-    return solve(prob; method=method)
-end
-
-"Multi-thread version of steady-state solver
-
-# Arguements
+Arguements
+----------
 - `func`: DE function
 - `us`: Vector of vectors of initial variables
 - `p`: parameter constant
-"
+
+See also
+--------
+[`DEsteady`](@ref), ['ODEtime'](@ref)
+"""
 function DifferentialEquations.solve(ode_func::DEsteady, us; ensemble_method=EnsembleThreads()) 
     
     function prob_func(prob,i,repeat)
@@ -49,6 +48,17 @@ function DifferentialEquations.solve(ode_func::DEsteady, us; ensemble_method=Ens
     return sim
 end
 
+
+function DifferentialEquations.solve(ode_func::DEsteady) 
+    @unpack func, u0, method, p = ode_func
+    return solveSS(func, u0, p; method= method)
+end
+
+function DifferentialEquations.solve(ode_func::ODEtime)
+    @unpack func, u0, tspan, p, method = ode_func
+    prob = ODEProblem(func, u0, tspan, p)
+    return solve(prob; method=method)
+end
 
 
 function DifferentialEquations.solve(ode_func::ODEtime, us; ensemble_method=EnsembleThreads()) 

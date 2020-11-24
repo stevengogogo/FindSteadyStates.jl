@@ -3,7 +3,8 @@ using Test
 using Parameters
 using DifferentialEquations
 using LabelledArrays
-#using Plots
+using Random
+using Plots
 
 @testset "FindSteadyStates.jl" begin
 
@@ -31,6 +32,10 @@ using LabelledArrays
         @info "Solve with grid search"
         @time include("solve_with_grid_search.jl")        
     end 
+
+    @testset "Jacobian and Stability" begin
+        include("cal_jacobian.jl")
+    end
 end
 
 

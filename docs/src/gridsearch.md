@@ -20,7 +20,7 @@ param_range = ParameterGrid(ranges)
 
 ```
 
-```julia-repl
+```julia
 julia> param_gen = ParameterGrid([(1.,10.,3), (4., 10., 2.)])
 6-element ParameterGrid:
  [1.0, 4.0]

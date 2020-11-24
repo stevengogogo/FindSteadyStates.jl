@@ -83,3 +83,35 @@ end
 
     @info "Done"
 end
+
+
+@testset "Range input" begin
+    g1 = ParameterGrid([
+        1.0:1.0:10.0,
+        1:1.0:10.0
+    ])
+
+    g2 = ParameterGrid([
+        range(0,10;length=10),
+        range(0,10;length=10)
+    ])
+
+
+    r1 = ParameterRandom([
+        1.0:1.0:10.0,
+        1:1.0:10.0
+    ])
+
+    r2 = ParameterRandom([
+        range(0,10;length=10),
+        range(0,10;length=10)
+    ])
+
+    # test
+    @test length(g2) == 10*10
+    @test length(g1) == 10*10
+    @test length(r1) == 10*10
+    @test length(r2) == 10*10
+
+
+end

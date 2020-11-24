@@ -1,8 +1,16 @@
 export Domain, ODEtime, DEsteady, solveSS
 
+
+"""
+    DEmeta
+
+Meta inofmration of differential equation. The family of ['DEmeta'](@ref) 
+"""
 abstract type DEmeta end
 
 """
+    ODEtime(func, u0, p, tspan)
+
 Struct for solveing time-series of differential-equations. The data type of ode function is referenced to DifferentialEquations.jl.
 
 Argument
@@ -13,19 +21,14 @@ Argument
 - `tspan`: time span 
 
 References
+----------
+
 1. [DifferentialEquations.jl](https://diffeq.sciml.ai/stable/tutorials/ode_example/)
 
-"""
-@with_kw struct ODEtime <: DEmeta
-    func :: Function 
-    u0
-    p
-    tspan
-    method= AutoTsit5(Rosenbrock23()) # For autonomaous detecion for stiff and non-stiff problem
-end
 
+Reset method
+------------
 
-"""
 Reset a field of `ODEtime` struct with broadcast method. 
 
 Usage
@@ -35,6 +38,9 @@ When using the `LabelledArray.jl` to define function and subtypes of `DEmeta`. U
 Purpose
 -------
 This feature is to solve the LabelledArray problem. when using the field vector to define function, the initial values or parameters need to be Named vectors. However, the grid search iterator returns vector which gets error when apply with the funtion of name vector. 
+
+!!! compat ModelingToolkit
+    When using ['jacobian'](@ref), should not use `LabelledArray` or name tuples for model function.
 
 Arguement
 ---------
@@ -77,13 +83,27 @@ julia> de.u0
  :s2 => 0.2
 ```
 """
+@with_kw struct ODEtime <: DEmeta
+    func 
+    u0
+    p
+    tspan
+    method= AutoTsit5(Rosenbrock23()) # For autonomaous detecion for stiff and non-stiff problem
+end
+
+
 function (self::ODEtime)(u0; key=:u0)
     return update_struct_broadcast(self, u0, key)
 end
 
 
 """
-Struct for solving steady state of an differential equation model.
+    DEsteady(func, p u0, method)
+    (self::DEsteady)(u0; key=:u0)
+
+- Struct for solving steady state of an differential equation model.
+
+- Update steady state meta, and return another DEsteady object.
 
 Argument
 --------
@@ -92,21 +112,15 @@ Argument
 - `p`: parameters
 - `method`: Method for solving steady-states. (i.e. `DifferentialEqiations.Tsit5()`, `DifferentialEquations.AutoTsit5(Rosenbrock23())`) 
 
+
 Reference
 ---------
 1. [ODE solvers of DifferentialEquations.jl](https://diffeq.sciml.ai/stable/solvers/split_ode_solve/)
 
 
-"""
-@with_kw struct DEsteady <: DEmeta
-    func  :: Function
-    p
-    u0
-    method = SSRootfind()
-end
+Example
+-------
 
-"""
-Update steady state meta, and return another DEsteady object.
 
 ```julia-repl
 julia> using LabelledArrays, DifferentialEqiations
@@ -130,6 +144,13 @@ julia> deS_new.u0
  :s2 => 200.0
 ```
 """
+@with_kw struct DEsteady <: DEmeta
+    func 
+    p
+    u0
+    method = SSRootfind()
+end
+
 function (self::DEsteady)(u0; key=:u0)
     return update_struct_broadcast(self, u0, key)
 end
@@ -151,6 +172,8 @@ end
 
 
 """
+    update_struct_broadcast(var_struc, vals, key)
+
 Update a field of struct varibale by broadcasting.
     
 Argument
