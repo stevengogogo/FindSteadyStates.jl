@@ -36,6 +36,10 @@ using Plots
     @testset "Jacobian and Stability" begin
         include("cal_jacobian.jl")
     end
+
+    @testset "Solve roots for unstabe system" begin
+        include("steadystates_unstabel_model.jl")
+    end
 end
 
 
