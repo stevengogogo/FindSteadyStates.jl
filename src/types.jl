@@ -84,7 +84,7 @@ julia> de.u0
 ```
 """
 @with_kw struct ODEtime <: DEmeta
-    func :: Function 
+    func 
     u0
     p
     tspan
@@ -145,7 +145,7 @@ julia> deS_new.u0
 ```
 """
 @with_kw struct DEsteady <: DEmeta
-    func  :: Function
+    func 
     p
     u0
     method = SSRootfind()
