@@ -5,40 +5,40 @@ using DifferentialEquations
 using LabelledArrays
 using Random
 using Plots
+using NLsolve
 
 @testset "FindSteadyStates.jl" begin
 
     @testset "Solve ODE" begin
-        @info "Solve ODE"
-        @time include("solveODE.jl")
+         #include("solveODE.jl")
     end
 
     @testset "Multi-thread for steady states" begin
-        @info "Multi-thread for steady states"
-        @time include("multithread_SteadyStateProblem.jl")
+         #include("multithread_SteadyStateProblem.jl")
     end
 
     @testset "Sampling vector" begin
-        @info "Sampling vector"
-        @time include("sampling_vector.jl")
+        #include("sampling_vector.jl")
     end
 
     @testset "Search functions" begin
-        @info "Search functions"
-        @time include("search.jl")
+        #include("search.jl")
     end
 
     @testset "Solve with grid search" begin
-        @info "Solve with grid search"
-        @time include("solve_with_grid_search.jl")        
+        #include("solve_with_grid_search.jl")        
     end 
 
     @testset "Jacobian and Stability" begin
-        include("cal_jacobian.jl")
+        #include("jacobian.jl")
     end
 
     @testset "Solve roots for unstabe system" begin
-        include("steadystates_unstabel_model.jl")
+        #include("steadystates_unstable_model.jl")
+    end
+
+    @testset "Rootfinding with boundaries" begin
+        include("rootfinding_bounded.jl")
     end
 end
 
