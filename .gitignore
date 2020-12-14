@@ -3,6 +3,7 @@
 *.jl.mem
 /docs/build/
 
+/Manifest.toml
 # For jupyter
 .ipynb_checkpoints/
 # For Mac
