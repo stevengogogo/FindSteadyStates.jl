@@ -1,3 +1,10 @@
+#=
+Command line for testing with multi-processing (8 cores)
+
+julia --project=. -e 'ENV["JIVE_PROCS"]="8"; using Pkg; Pkg.test()'
+
+=#
+
 using FindSteadyStates
 using Test
 using Parameters
@@ -7,6 +14,10 @@ using Random
 using Plots
 using NLsolve
 
+
+using Jive
+runtests(@__DIR__)
+#=
 @testset "FindSteadyStates.jl" begin
 
     @testset "Solve ODE" begin
@@ -42,5 +53,5 @@ using NLsolve
     end
 end
 
-
+=#
 
