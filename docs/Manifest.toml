@@ -794,9 +794,9 @@ version = "1.5.0"
 
 [[VectorizationBase]]
 deps = ["ArrayInterface", "Hwloc", "IfElse", "Libdl", "LinearAlgebra"]
-git-tree-sha1 = "73e04a8572197167f8484d8444cb851d0a93af7e"
+git-tree-sha1 = "924a8c786e6a2842015ebf62dc3f56bc355e28ac"
 uuid = "3d5dd08c-fd9d-11e8-17fa-ed2836048c2f"
-version = "0.13.11"
+version = "0.13.12"
 
 [[VersionParsing]]
 git-tree-sha1 = "80229be1f670524750d905f8fc8148e5a8c4537f"
