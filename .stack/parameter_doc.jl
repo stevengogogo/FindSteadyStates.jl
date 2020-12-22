@@ -1,18 +1,20 @@
-@with_kw struct """
-    StabilityType 
+
+"""
+StabilityType 
 
 Store the information about stability.
-"""  StabilityType
+""" 
+@with_kw struct   StabilityType
     stable ::Bool 
     unstable ::Bool 
     saddle  ::Bool 
     damping ::Bool 
 end
 
-
-@with_kw """
+"""
 A representation of a chill number
-""" MyStruct
+"""
+@with_kw  struct MyStruct
   "The absolute value"
   a::Float64 = 1.0
   "The cool number"
@@ -27,3 +29,4 @@ effeef
     r::Int=5
     a
 end
+
