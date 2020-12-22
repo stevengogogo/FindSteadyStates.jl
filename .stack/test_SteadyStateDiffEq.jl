@@ -12,5 +12,5 @@ u0 = zeros(2)
 prob = SteadyStateProblem(f,u0)
 sol = solve(prob,SSRootfind())
 
-# Solve 
-sol = solve(prob,SSRootfind(nlsolve = (f,u0) -> NLsolve.nlsolve(f,u0,autodiff=true,method=:newton,iterations=Int(1e6))))
+sol = solve(prob,SSRootfind(nlsolve = (f,u0,abstol) -> (res=NLsolve.nlsolve(f,u0,autodiff=:forward,method=:newton,iterations=Int(1e6),ftol=abstol);res.zero) ))
+
