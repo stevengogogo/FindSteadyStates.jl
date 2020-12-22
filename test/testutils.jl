@@ -9,8 +9,9 @@ Reference
 1. p.82-p.83, Figure 4.8. Ingalls, B. P. (2013). Mathematical modeling in systems biology: an introduction. MIT press.
 """
 function bistable_ode!(du, u, p ,t)
-	s1, s2 = u.s1, u.s2
-	K1, K2, k1, k2, k3, k4, n1 , n2  = p.K1, p.K2, p.k1, p.k2, p.k3, p.k4, p.n1 , p.n2 
+	s1, s2 = u
+	K1, K2, k1, k2, k3, k4, n1 , n2  = p
+	
 	du[1] = k1 / (1 + (s2/K2)^n1) - k3*s1
 	du[2] = k2/  (1 + (s1/K1)^n2) - k4*s2 
 end
