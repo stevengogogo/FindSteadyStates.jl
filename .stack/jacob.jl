@@ -16,7 +16,7 @@ end
 prob = ODEProblem(rober,[1.0,0.0,0.0],(0.0,1e2),(0.04,3e2,1e4))
 de = modelingtoolkitize(prob)
 
-jac = eval(ModelingToolkit.generate_jacobian(de)[2])
+jac = @eval ModelingToolkit.generate_jacobian(de)[2] 
 
 jac(zeros(3,3),[0.0184367966813563, 7.51141018910664e-8, 0.9815631282045398],(0.04,0.,0.), (0.0,1e5) )
 
