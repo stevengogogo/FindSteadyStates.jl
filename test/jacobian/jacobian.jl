@@ -1,20 +1,13 @@
 # Models
 
-function rober(du, u, p, t)
-    y1, y2, y3 = u
-    k1, k2, k3 = p
-
-    du[1] = -k1*y1 + k3*y2*y3 
-    du[2] = k1*y1 - k2*y2^2. - k3*y2*y3 
-    du[3] = k2*y2^2.
-
-end 
+include("model.jl")
 
 @testset "Rober model" begin
 
     ## Solve 
-    u = [1.0,0.0,0.0]
-    p = [1.0,0.0,0.0]
+    u = rober_model.u0
+    p = rober_model.p
+    rober = rober_model.func
 
     ## Create jacobian genreator
     j_gen = jacobian(rober, u, p)
@@ -29,23 +22,13 @@ end
 end
 
 
-function bistable_ode!(du, u, p ,t)
-    s1, s2 = u
-    K1, K2, k1, k2, k3, k4, n1 , n2  = p
-    du[1] = k1 / (1 + (s2/K2)^n1) - k3*s1
-    du[2] = k2/  (1 + (s1/K1)^n2) - k4*s2 
-end
-
-p_ = [1., 1., 20., 20., 5., 5.,  4., 4.]
-
-u_1 = [3., 1.]
-
 
 @testset "Bistable model" begin
 
+    @unpack func, p, u0 = bistable_model
 
     # Define a problem
-    de = DEsteady(func=bistable_ode!, p=p_, u0= u_1, method=SSRootfind())
+    de = DEsteady(func=func, p=p, u0= u0, method=SSRootfind())
 
     j_gen = jacobian(de) # jacobian generator
 
