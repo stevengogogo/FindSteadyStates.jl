@@ -1,6 +1,12 @@
 #=
 Test the wrapper function. 
+
+Reference
+---------
+1. https://github.com/stevengogogo/FindSteadyStates.jl/issues/29
 =#
+
+include("model.jl")
 
 function fixedpoint_gen(func, u0, p, ranges)
 
@@ -32,3 +38,10 @@ function fixedpoint_gen(func, u0, p, ranges)
     
 end 
 
+
+func_ = bistable_model.func 
+p_ = bistable_model.p
+u0_ = bistable_model.u0
+
+
+fixedpoint_gen(func_, u0_, p_, [1:0.1:2, 1:0.1:2])

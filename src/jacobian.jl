@@ -42,8 +42,8 @@ NameTuple definition of `ode` function is unrecommended. Due to the incompatibil
 function jacobian(ode, u, p; t=nothing)
     prob = ODEProblem(ode, u, t, p)
     de =  ModelingToolkit.modelingtoolkitize(prob)
-    jac_func =  @eval $(ModelingToolkit.generate_jacobian(de)[2])
-
+    
+    jac_func = ModelingToolkit.generate_jacobian(de, expression=Val{false})[2]
     return jacobian(ode=ode, jac_func=jac_func, u=u, p=p, t=t)
 end
 
