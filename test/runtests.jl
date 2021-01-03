@@ -30,7 +30,8 @@ using NLsolve
     end 
 
     @testset "Jacobian and Stability" begin
-        include("jacobian.jl")
+        include("jacobian/jacobian.jl")
+        include("jacobian/generate_jac.jl")
     end
 
     @testset "Solve roots for unstabe system" begin
