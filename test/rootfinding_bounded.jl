@@ -18,5 +18,5 @@ sol.retcode == :Success
 #=
 With boundary
 =#
-de_b = DEsteady(de, method=method=SSRootfind(nlsolve = (f,u0,abstol) -> (res=NLsolve.nlsolve(f,u0, zeros(length(u0)), fill(Inf, length(u0)) ,autodiff=:forward,method=:newton,iterations=Int(1e6),ftol=abstol);res.zero) )
+de_b = DEsteady(de, method=SSRootfind(nlsolve = (f,u0,abstol) -> (res=NLsolve.nlsolve(f,u0, zeros(length(u0)), fill(Inf, length(u0)) ,autodiff=:forward,method=:newton,iterations=Int(1e6),ftol=abstol);res.zero) )
 )
