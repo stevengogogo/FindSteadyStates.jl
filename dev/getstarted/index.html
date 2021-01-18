@@ -18,26 +18,26 @@ end</code></pre><div class="admonition is-category-tips"><header class="admoniti
         ],
         len= 100
     )</code></pre><pre class="documenter-example-output">100-element ParameterRandom:
- [24.246564408018067, 0.11932640371622054]
- [75.58012488961813, 8.53210681641221]
- [5.608387746593402, 2.374853932394065]
- [40.92327457847675, 1.24551503650884]
- [14.766438170300432, 13.849381253924719]
- [32.82103001648433, 77.56262409289215]
- [78.44884199893872, 3.3411245288440905]
- [45.27678151731293, 9.687610749919328]
- [8.96459399429752, 59.7861273826477]
- [84.01647183292079, 20.02334355703418]
+ [81.3662822681055, 0.006416951857792896]
+ [4.047075898027619, 0.0018816908337593557]
+ [80.8442772530451, 0.09755381488790671]
+ [98.30530150870128, 0.12413821076531621]
+ [91.7550576910926, 0.03481634516826796]
+ [13.102508622180476, 0.12771384076258907]
+ [50.836527813187146, 0.0077828991595118085]
+ [23.774419251205448, 20.12074773973286]
+ [76.58532866114989, 0.011061774331433155]
+ [82.6491875288745, 0.05274475657724693]
  ⋮
- [11.801110476610432, 0.007967476810517007]
- [54.35181285489499, 0.008955454502828716]
- [90.66035182550556, 0.005903054743600873]
- [16.755380853740597, 6.602950467303628]
- [62.27456410762393, 0.029513705120324068]
- [68.7542188751108, 0.23052206223450278]
- [45.58665274691589, 0.04897762021306079]
- [6.710231894230834, 0.08174159943451853]
- [89.29085013952727, 0.2405530232647917]</pre><pre><code class="language-julia">     param_grid = ParameterGrid([
+ [94.24658249611883, 0.6086583176043386]
+ [56.8492601743938, 0.07503785524633305]
+ [10.284050535946054, 5.745101694208087]
+ [58.88468513835365, 0.0013632644963930346]
+ [7.568215111846843, 4.065164860702133]
+ [82.32561979152176, 10.008573504983909]
+ [38.98426858991193, 83.50950517347687]
+ [52.662243421633725, 0.8431894181808175]
+ [15.39338164656483, 19.969740498673424]</pre><pre><code class="language-julia">     param_grid = ParameterGrid([
             [0.,100.,100],
             [0.,100.,100]
         ])</code></pre><pre class="documenter-example-output">10000-element ParameterGrid:
@@ -62,4 +62,4 @@ end</code></pre><div class="admonition is-category-tips"><header class="admoniti
  [98.98989898989899, 100.0]
  [100.0, 100.0]</pre><h2 id="Solve-solutions-with-multi-threading"><a class="docs-heading-anchor" href="#Solve-solutions-with-multi-threading">Solve solutions with multi-threading</a><a id="Solve-solutions-with-multi-threading-1"></a><a class="docs-heading-anchor-permalink" href="#Solve-solutions-with-multi-threading" title="Permalink"></a></h2><p><strong>Random Search</strong></p><pre><code class="language-julia">    sols_rand = solve(de, param_rand)</code></pre><pre class="documenter-example-output">EnsembleSolution Solution of length 100 with uType:
 SteadyStateSolution{Float64,1,Array{Float64,1},Array{Float64,1},SteadyStateProblem{Array{Float64,1},true,Array{Float64,1},ODEFunction{true,typeof(Main.ex-exp.bistable_ode!),LinearAlgebra.UniformScaling{Bool},Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing},Base.Iterators.Pairs{Union{},Union{},Tuple{},NamedTuple{(),Tuple{}}}},SSRootfind{SteadyStateDiffEq.var&quot;#2#4&quot;}}</pre><p><strong>Grid Search</strong></p><pre><code class="language-julia">    sols_grid = solve(de, param_grid)</code></pre><pre class="documenter-example-output">EnsembleSolution Solution of length 10000 with uType:
-SteadyStateSolution{Float64,1,Array{Float64,1},Array{Float64,1},SteadyStateProblem{Array{Float64,1},true,Array{Float64,1},ODEFunction{true,typeof(Main.ex-exp.bistable_ode!),LinearAlgebra.UniformScaling{Bool},Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing},Base.Iterators.Pairs{Union{},Union{},Tuple{},NamedTuple{(),Tuple{}}}},SSRootfind{SteadyStateDiffEq.var&quot;#2#4&quot;}}</pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../examples/">Examples »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 18 January 2021 09:04">Monday 18 January 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+SteadyStateSolution{Float64,1,Array{Float64,1},Array{Float64,1},SteadyStateProblem{Array{Float64,1},true,Array{Float64,1},ODEFunction{true,typeof(Main.ex-exp.bistable_ode!),LinearAlgebra.UniformScaling{Bool},Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing},Base.Iterators.Pairs{Union{},Union{},Tuple{},NamedTuple{(),Tuple{}}}},SSRootfind{SteadyStateDiffEq.var&quot;#2#4&quot;}}</pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../examples/">Examples »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 18 January 2021 10:11">Monday 18 January 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
