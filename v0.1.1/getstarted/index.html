@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Get started · FindSteadyStates.jl</title><link rel="canonical" href="https://stevengogogo.github.io/FindSteadyStates.jl/getstarted/"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">FindSteadyStates.jl</span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li class="is-active"><a class="tocitem" href>Get started</a><ul class="internal"><li><a class="tocitem" href="#Create-Differential-Equation-System"><span>Create Differential Equation System</span></a></li><li><a class="tocitem" href="#Create-DE-Problem-for-Solving"><span>Create DE Problem for Solving</span></a></li><li><a class="tocitem" href="#Exploring-the-initial-states"><span>Exploring the initial states</span></a></li><li><a class="tocitem" href="#Solve-solutions-with-multi-threading"><span>Solve solutions with multi-threading</span></a></li></ul></li><li><a class="tocitem" href="../examples/">Examples</a></li><li><a class="tocitem" href="../gridsearch/">Grid Search</a></li><li><a class="tocitem" href="../api/">API</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Get started</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Get started</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/stevengogogo/FindSteadyStates.jl/blob/master/docs/src/getstarted.md#L" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Get-Started"><a class="docs-heading-anchor" href="#Get-Started">Get Started</a><a id="Get-Started-1"></a><a class="docs-heading-anchor-permalink" href="#Get-Started" title="Permalink"></a></h1><pre><code class="language-julia">using FindSteadyStates
+using DifferentialEquations</code></pre><h2 id="Create-Differential-Equation-System"><a class="docs-heading-anchor" href="#Create-Differential-Equation-System">Create Differential Equation System</a><a id="Create-Differential-Equation-System-1"></a><a class="docs-heading-anchor-permalink" href="#Create-Differential-Equation-System" title="Permalink"></a></h2><p>The standard way to create DE system is to create a derivative function in the form of <code>f(du,u,p,t)</code> with preallocated derivatives (<code>du</code>), initial variables (&#39;u&#39;), parameters (<code>p</code>) and time (&#39;t&#39;)</p><pre><code class="language-julia">function bistable_ode!(du, u, p ,t)
+	s1, s2 = u
+	K1, K2, k1, k2, k3, k4, n1 , n2  = p
+	du[1] = k1 / (1 + (s2/K2)^n1) - k3*s1
+	du[2] = k2/  (1 + (s1/K1)^n2) - k4*s2
+end</code></pre><div class="admonition is-category-tips"><header class="admonition-header">NameTuple may cause error</header><div class="admonition-body"><p>One may want to use <code>NameTuple</code> like <code>LabelledArrays</code> to create Tuple array and apply to the ode function. However, this may cause <code>getindex undefined error</code> for Jacobian Calculation via <code>ModelingToolkit</code>, but still safe with solving steady states with <code>NameTuple</code> as returns.</p></div></div><h2 id="Create-DE-Problem-for-Solving"><a class="docs-heading-anchor" href="#Create-DE-Problem-for-Solving">Create DE Problem for Solving</a><a id="Create-DE-Problem-for-Solving-1"></a><a class="docs-heading-anchor-permalink" href="#Create-DE-Problem-for-Solving" title="Permalink"></a></h2><pre><code class="language-julia">de = DEsteady(func = bistable_ode!,
+         p =  [1.,1.,20.,20.,5.,5.,4.,4.],
+         u0 = [3.,1.],
+         method = SSRootfind()
+         )</code></pre><div class="admonition is-category-tips"><header class="admonition-header">Method for solving steady state</header><div class="admonition-body"><p>The <code>DEsteady.method</code> will further be used for <code>DifferentialEquation.solve</code>. Both dynamic solver (<code>Dynamicss</code> which reaches steady states by solving DE) and root finding (<code>SSRootfind</code>) can get the <strong>stable point</strong>. However, only <code>SSRootfind</code> can find the <strong>saddle point</strong> if the initial values is near by.</p></div></div><p>The system is now well organized and ready to be solved.</p><pre><code class="language-julia">sol = solve(de)</code></pre><pre class="documenter-example-output">u: 2-element Array{Float64,1}:
+ 3.999999765270408
+ 0.015564205973794262</pre><h2 id="Exploring-the-initial-states"><a class="docs-heading-anchor" href="#Exploring-the-initial-states">Exploring the initial states</a><a id="Exploring-the-initial-states-1"></a><a class="docs-heading-anchor-permalink" href="#Exploring-the-initial-states" title="Permalink"></a></h2><p>To find all the steady states, one needs to sample the initial state by grid or random search. To begin with, the <code>ParameterGrid</code> (grid search) and <code>ParameterRandom</code> (random search) are useful generator for iterating and returning the parameter set.</p><pre><code class="language-julia">    param_rand = ParameterRandom(
+        methods= [
+            Uniform(0.,100.),
+            Log_uniform(0.001,100.)
+        ],
+        len= 100
+    )</code></pre><pre class="documenter-example-output">100-element ParameterRandom:
+ [72.59820988349345, 0.03346729925907508]
+ [75.37350963768515, 9.913712086941585]
+ [9.955797367848195, 7.19722080531327]
+ [50.426425331164594, 12.306109586611766]
+ [76.27103160280136, 0.002038349484549844]
+ [52.47428439325663, 7.718897624433769]
+ [95.2560046274277, 0.04695412520870663]
+ [25.284207167255435, 10.747823392228593]
+ [70.96158231753797, 0.6438772526503257]
+ [98.29660301249288, 0.0026486935311209395]
+ ⋮
+ [49.78202980237607, 0.006659996365821553]
+ [43.13077501224334, 0.49101555985816203]
+ [60.78433883188092, 0.0021529476559056715]
+ [66.9426430659054, 0.002004587839838754]
+ [22.11166003021383, 0.8539971880704808]
+ [74.28570102661605, 0.08198422687670825]
+ [95.29143936499625, 1.181466379052864]
+ [2.675316789566029, 1.0377849183228722]
+ [6.373582432338476, 15.133320163833305]</pre><pre><code class="language-julia">     param_grid = ParameterGrid([
+            [0.,100.,100],
+            [0.,100.,100]
+        ])</code></pre><pre class="documenter-example-output">10000-element ParameterGrid:
+ [0.0, 0.0]
+ [1.0101010101010102, 0.0]
+ [2.0202020202020203, 0.0]
+ [3.0303030303030303, 0.0]
+ [4.040404040404041, 0.0]
+ [5.050505050505051, 0.0]
+ [6.0606060606060606, 0.0]
+ [7.070707070707071, 0.0]
+ [8.080808080808081, 0.0]
+ [9.090909090909092, 0.0]
+ ⋮
+ [91.91919191919193, 100.0]
+ [92.92929292929294, 100.0]
+ [93.93939393939395, 100.0]
+ [94.94949494949496, 100.0]
+ [95.95959595959597, 100.0]
+ [96.96969696969697, 100.0]
+ [97.97979797979798, 100.0]
+ [98.98989898989899, 100.0]
+ [100.0, 100.0]</pre><h2 id="Solve-solutions-with-multi-threading"><a class="docs-heading-anchor" href="#Solve-solutions-with-multi-threading">Solve solutions with multi-threading</a><a id="Solve-solutions-with-multi-threading-1"></a><a class="docs-heading-anchor-permalink" href="#Solve-solutions-with-multi-threading" title="Permalink"></a></h2><p><strong>Random Search</strong></p><pre><code class="language-julia">    sols_rand = solve(de, param_rand)</code></pre><pre class="documenter-example-output">EnsembleSolution Solution of length 100 with uType:
+SteadyStateSolution{Float64,1,Array{Float64,1},Array{Float64,1},SteadyStateProblem{Array{Float64,1},true,Array{Float64,1},ODEFunction{true,typeof(Main.ex-exp.bistable_ode!),LinearAlgebra.UniformScaling{Bool},Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing},Base.Iterators.Pairs{Union{},Union{},Tuple{},NamedTuple{(),Tuple{}}}},SSRootfind{SteadyStateDiffEq.var&quot;#2#4&quot;}}</pre><p><strong>Grid Search</strong></p><pre><code class="language-julia">    sols_grid = solve(de, param_grid)</code></pre><pre class="documenter-example-output">EnsembleSolution Solution of length 10000 with uType:
+SteadyStateSolution{Float64,1,Array{Float64,1},Array{Float64,1},SteadyStateProblem{Array{Float64,1},true,Array{Float64,1},ODEFunction{true,typeof(Main.ex-exp.bistable_ode!),LinearAlgebra.UniformScaling{Bool},Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing},Base.Iterators.Pairs{Union{},Union{},Tuple{},NamedTuple{(),Tuple{}}}},SSRootfind{SteadyStateDiffEq.var&quot;#2#4&quot;}}</pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../examples/">Examples »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 19 January 2021 00:41">Tuesday 19 January 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
