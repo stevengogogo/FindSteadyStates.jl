@@ -17,7 +17,6 @@ Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 DifferentialEquations = "6"
 FiniteDiff = "2"
 ForwardDiff = "0.10"
-ModelingToolkit = "4"
+ModelingToolkit = "4, 5.10"
 Parameters = "0.12"
 julia = "1"
-
