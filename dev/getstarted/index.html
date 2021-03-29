@@ -9,35 +9,35 @@ end</code></pre><div class="admonition is-category-tips"><header class="admoniti
          p =  [1.,1.,20.,20.,5.,5.,4.,4.],
          u0 = [3.,1.],
          method = SSRootfind()
-         )</code></pre><div class="admonition is-category-tips"><header class="admonition-header">Method for solving steady state</header><div class="admonition-body"><p>The <code>DEsteady.method</code> will further be used for <code>DifferentialEquation.solve</code>. Both dynamic solver (<code>Dynamicss</code> which reaches steady states by solving DE) and root finding (<code>SSRootfind</code>) can get the <strong>stable point</strong>. However, only <code>SSRootfind</code> can find the <strong>saddle point</strong> if the initial values is near by.</p></div></div><p>The system is now well organized and ready to be solved.</p><pre><code class="language-julia">sol = solve(de)</code></pre><pre class="documenter-example-output">u: 2-element Array{Float64,1}:
+         )</code></pre><div class="admonition is-category-tips"><header class="admonition-header">Method for solving steady state</header><div class="admonition-body"><p>The <code>DEsteady.method</code> will further be used for <code>DifferentialEquation.solve</code>. Both dynamic solver (<code>Dynamicss</code> which reaches steady states by solving DE) and root finding (<code>SSRootfind</code>) can get the <strong>stable point</strong>. However, only <code>SSRootfind</code> can find the <strong>saddle point</strong> if the initial values is near by.</p></div></div><p>The system is now well organized and ready to be solved.</p><pre><code class="language-julia">sol = solve(de)</code></pre><pre class="documenter-example-output">u: 2-element Vector{Float64}:
  3.999999765270408
- 0.015564205973794262</pre><h2 id="Exploring-the-initial-states"><a class="docs-heading-anchor" href="#Exploring-the-initial-states">Exploring the initial states</a><a id="Exploring-the-initial-states-1"></a><a class="docs-heading-anchor-permalink" href="#Exploring-the-initial-states" title="Permalink"></a></h2><p>To find all the steady states, one needs to sample the initial state by grid or random search. To begin with, the <code>ParameterGrid</code> (grid search) and <code>ParameterRandom</code> (random search) are useful generator for iterating and returning the parameter set.</p><pre><code class="language-julia">    param_rand = ParameterRandom(
+ 0.015564205973794263</pre><h2 id="Exploring-the-initial-states"><a class="docs-heading-anchor" href="#Exploring-the-initial-states">Exploring the initial states</a><a id="Exploring-the-initial-states-1"></a><a class="docs-heading-anchor-permalink" href="#Exploring-the-initial-states" title="Permalink"></a></h2><p>To find all the steady states, one needs to sample the initial state by grid or random search. To begin with, the <code>ParameterGrid</code> (grid search) and <code>ParameterRandom</code> (random search) are useful generator for iterating and returning the parameter set.</p><pre><code class="language-julia">    param_rand = ParameterRandom(
         methods= [
             Uniform(0.,100.),
             Log_uniform(0.001,100.)
         ],
         len= 100
     )</code></pre><pre class="documenter-example-output">100-element ParameterRandom:
- [81.3662822681055, 0.006416951857792896]
- [4.047075898027619, 0.0018816908337593557]
- [80.8442772530451, 0.09755381488790671]
- [98.30530150870128, 0.12413821076531621]
- [91.7550576910926, 0.03481634516826796]
- [13.102508622180476, 0.12771384076258907]
- [50.836527813187146, 0.0077828991595118085]
- [23.774419251205448, 20.12074773973286]
- [76.58532866114989, 0.011061774331433155]
- [82.6491875288745, 0.05274475657724693]
+ [45.969157101615025, 1.8780180623714515]
+ [46.36700409831738, 0.08961342509961331]
+ [88.87083818828818, 0.17859998409938135]
+ [35.9717443975651, 0.14813672223144211]
+ [27.98705957724139, 2.995351140135156]
+ [88.49618776413017, 0.0021423843306989186]
+ [67.99310164323484, 0.040736451223591735]
+ [71.92616613791138, 21.959449593664964]
+ [36.46068904583623, 0.0018084999447607426]
+ [97.56043559549903, 0.029542564979570914]
  ⋮
- [94.24658249611883, 0.6086583176043386]
- [56.8492601743938, 0.07503785524633305]
- [10.284050535946054, 5.745101694208087]
- [58.88468513835365, 0.0013632644963930346]
- [7.568215111846843, 4.065164860702133]
- [82.32561979152176, 10.008573504983909]
- [38.98426858991193, 83.50950517347687]
- [52.662243421633725, 0.8431894181808175]
- [15.39338164656483, 19.969740498673424]</pre><pre><code class="language-julia">     param_grid = ParameterGrid([
+ [67.01211926997273, 0.01056553189467231]
+ [68.50270727434331, 0.5199338033108535]
+ [92.89792429234652, 6.516039479039337]
+ [32.15212008506945, 0.016345575910227988]
+ [1.3139596339569293, 2.895895784288703]
+ [0.6957997736507071, 0.32068757559193733]
+ [26.899715985464546, 0.12013283865778279]
+ [89.94587532243199, 3.819593390751878]
+ [67.17120717861724, 22.12699243236041]</pre><pre><code class="language-julia">     param_grid = ParameterGrid([
             [0.,100.,100],
             [0.,100.,100]
         ])</code></pre><pre class="documenter-example-output">10000-element ParameterGrid:
@@ -61,5 +61,5 @@ end</code></pre><div class="admonition is-category-tips"><header class="admoniti
  [97.97979797979798, 100.0]
  [98.98989898989899, 100.0]
  [100.0, 100.0]</pre><h2 id="Solve-solutions-with-multi-threading"><a class="docs-heading-anchor" href="#Solve-solutions-with-multi-threading">Solve solutions with multi-threading</a><a id="Solve-solutions-with-multi-threading-1"></a><a class="docs-heading-anchor-permalink" href="#Solve-solutions-with-multi-threading" title="Permalink"></a></h2><p><strong>Random Search</strong></p><pre><code class="language-julia">    sols_rand = solve(de, param_rand)</code></pre><pre class="documenter-example-output">EnsembleSolution Solution of length 100 with uType:
-SteadyStateSolution{Float64,1,Array{Float64,1},Array{Float64,1},SteadyStateProblem{Array{Float64,1},true,Array{Float64,1},ODEFunction{true,typeof(Main.ex-exp.bistable_ode!),LinearAlgebra.UniformScaling{Bool},Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing},Base.Iterators.Pairs{Union{},Union{},Tuple{},NamedTuple{(),Tuple{}}}},SSRootfind{SteadyStateDiffEq.var&quot;#2#4&quot;}}</pre><p><strong>Grid Search</strong></p><pre><code class="language-julia">    sols_grid = solve(de, param_grid)</code></pre><pre class="documenter-example-output">EnsembleSolution Solution of length 10000 with uType:
-SteadyStateSolution{Float64,1,Array{Float64,1},Array{Float64,1},SteadyStateProblem{Array{Float64,1},true,Array{Float64,1},ODEFunction{true,typeof(Main.ex-exp.bistable_ode!),LinearAlgebra.UniformScaling{Bool},Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing},Base.Iterators.Pairs{Union{},Union{},Tuple{},NamedTuple{(),Tuple{}}}},SSRootfind{SteadyStateDiffEq.var&quot;#2#4&quot;}}</pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../examples/">Examples »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 18 January 2021 10:11">Monday 18 January 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+SciMLBase.NonlinearSolution{Float64, 1, Vector{Float64}, Vector{Float64}, SteadyStateProblem{Vector{Float64}, true, Vector{Float64}, ODEFunction{true, typeof(Main.ex-exp.bistable_ode!), LinearAlgebra.UniformScaling{Bool}, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, typeof(SciMLBase.DEFAULT_OBSERVED), Nothing}, Base.Iterators.Pairs{Union{}, Union{}, Tuple{}, NamedTuple{(), Tuple{}}}}, SSRootfind{SteadyStateDiffEq.var&quot;#2#4&quot;}, Nothing, Nothing}</pre><p><strong>Grid Search</strong></p><pre><code class="language-julia">    sols_grid = solve(de, param_grid)</code></pre><pre class="documenter-example-output">EnsembleSolution Solution of length 10000 with uType:
+SciMLBase.NonlinearSolution{Float64, 1, Vector{Float64}, Vector{Float64}, SteadyStateProblem{Vector{Float64}, true, Vector{Float64}, ODEFunction{true, typeof(Main.ex-exp.bistable_ode!), LinearAlgebra.UniformScaling{Bool}, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, typeof(SciMLBase.DEFAULT_OBSERVED), Nothing}, Base.Iterators.Pairs{Union{}, Union{}, Tuple{}, NamedTuple{(), Tuple{}}}}, SSRootfind{SteadyStateDiffEq.var&quot;#2#4&quot;}, Nothing, Nothing}</pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../examples/">Examples »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 29 March 2021 08:27">Monday 29 March 2021</span>. Using Julia version 1.6.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
