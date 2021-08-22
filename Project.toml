@@ -1,7 +1,7 @@
 name = "FindSteadyStates"
 uuid = "5ce5e58b-649a-467a-bfd0-ccefe064e451"
 authors = ["= <stevengogogo4321@gmail.com> and contributors"]
-version = "0.1.1"
+version = "0.1.2"
 
 [deps]
 DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"
