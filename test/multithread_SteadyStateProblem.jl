@@ -9,7 +9,7 @@ p_ = 1
 u_ss_real = zeros(length(us))
 
 sim = solve_SSODE_threads(de_func, us, p_)
-res = flatten(get_sol2array(sim))
+res = FindSteadyStates.flatten(get_sol2array(sim))
 
 @test isapprox(res, u_ss_real; atol=atol)
 

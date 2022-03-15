@@ -1,7 +1,7 @@
 name = "FindSteadyStates"
 uuid = "5ce5e58b-649a-467a-bfd0-ccefe064e451"
 authors = ["= <stevengogogo4321@gmail.com> and contributors"]
-version = "0.1.0"
+version = "0.1.2"
 
 [deps]
 DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"
@@ -16,7 +16,9 @@ Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 [compat]
 DifferentialEquations = "6"
 FiniteDiff = "2.7"
+DifferentialEquations = "6, 7"
+FiniteDiff = "2"
 ForwardDiff = "0.10"
-ModelingToolkit = "4"
+ModelingToolkit = "6, 8"
 Parameters = "0.12"
 julia = "1"
