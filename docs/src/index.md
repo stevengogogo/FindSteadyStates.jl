@@ -19,14 +19,14 @@ Exploring the steady states of ODE in given domain.
     This model is currently under construction [2020/11/11].
 
 ## Features
-1. Find steady states
-2. Classify stability: stable and saddle point.
 
+1. Finding steady-states in an ODE system.
+2. Classifying stable and saddle nodes.
 
 ## Installation 
 
 ```sh
-] add https://github.com/stevengogogo/FindSteadyStates.jl
+] add FindSteadyStates
 ```
 
 
