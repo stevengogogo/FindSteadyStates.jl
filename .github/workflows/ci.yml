@@ -1,8 +1,12 @@
 name: CI
 
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 env:
   JULIA_NUM_THREADS: 2
@@ -17,6 +21,10 @@ jobs:
         version: ["1.5", "1.6", "1.7"]
         os: ["ubuntu-latest", "macOS-latest", "windows-latest"]
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
       - uses: actions/checkout@v2
       - uses: julia-actions/setup-julia@v1
         with:
@@ -33,6 +41,10 @@ jobs:
     name: Documentation
     runs-on: ubuntu-latest
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
       - uses: actions/checkout@v2
       - name: Set up Python
         uses: actions/setup-python@v2
