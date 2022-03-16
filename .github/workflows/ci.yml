@@ -47,11 +47,11 @@ jobs:
         uses: julia-actions/setup-julia@v1
         with:
           version: "1"
-      - name: Configure Git
-        run: |
-          git config --global "$(git log -n 1 --pretty=format:%an)"
-          git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
-          git config --global github.user ${{ github.actor }}
+      # - name: Configure Git
+      #   run: |
+      #     git config --global "$(git log -n 1 --pretty=format:%an)"
+      #     git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
+      #     git config --global github.user ${{ github.actor }}
       - name: Install current working package
         shell: julia --project=docs --color=yes {0}
         run: |
