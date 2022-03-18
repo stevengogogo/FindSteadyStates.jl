@@ -6,3 +6,4 @@ PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee"
 
 [compat]
 DifferentialEquations = "7"
+LabelledArrays = "1"
