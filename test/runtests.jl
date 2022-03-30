@@ -4,17 +4,17 @@ using Parameters
 using DifferentialEquations
 using LabelledArrays
 using Random
-using Plots
+# using Plots
 using NLsolve
 
 @testset "FindSteadyStates.jl" begin
 
     @testset "Solve ODE" begin
-         include("solveODE.jl")
+        include("solveODE.jl")
     end
 
     @testset "Multi-thread for steady states" begin
-         include("multithread_SteadyStateProblem.jl")
+        include("multithread_SteadyStateProblem.jl")
     end
 
     @testset "Sampling vector" begin
@@ -26,8 +26,8 @@ using NLsolve
     end
 
     @testset "Solve with grid search" begin
-        include("solve_with_grid_search.jl")        
-    end 
+        include("solve_with_grid_search.jl")
+    end
 
     @testset "Jacobian and Stability" begin
         include("jacobian/jacobian.jl")
