@@ -1,10 +1,8 @@
 ```@setup tutorial
     using FindSteadyStates 
     using DifferentialEquations 
-    using PyPlot
+    using Plots
 ```
-
-
 
 # Prerequisite
 
@@ -23,15 +21,9 @@ using LabelledArrays
 
 ```
 
-```@example tutorial 
-    deS = DEsteady(func=x->x, u0= [1.0,2.0], p=1.0)
-
-```
-
 ```@example tutorial
-    fig, ax = subplots()
-    ax = plot([1,2],[3,4])
-    fig.savefig("test.svg") # hide
+    plot([1,2],[3,4])
+    savefig("test.svg") # hide
     @info pwd()
 ```
 ![](test.svg)
@@ -86,8 +78,6 @@ num_saddle = sum(getfield.(stab_modes, :saddle))
 println("num_stable=$(num_stable)") # hide
 println("num_saddle=$(num_saddle)") # hide
 ```
-
-
 
 # References
 
