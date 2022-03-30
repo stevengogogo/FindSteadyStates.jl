@@ -44,7 +44,7 @@ param_gen = ParameterGrid([
 sols = solve(de, param_gen)
 
 # Remove similar solutions
-steadies = unique(sols)
+steadies = unique_solutions(sols)
 
 # Jacobian
 jac_ms = j_gen.(steadies)

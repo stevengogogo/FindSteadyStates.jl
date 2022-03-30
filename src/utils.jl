@@ -1,36 +1,20 @@
-export get_sol2array, flatten, unique
+export get_sol2array, unique_solutions
 
 """Get the vector of vectors of results. `sol` can be `:EnsembleSolution` or other solutions from `DifferentialEquations.solve`
 """
 get_sol2array(sol) = getfield.(sol.u, :u)
 
-flatten(arr_arrs) = collect(Iterators.flatten(arr_arrs))
+"""
 
+```julia
+unique_solutions(sols; tol_digit=4)
+```
+
+Filter unique steady-state solutions `sols` with tolerance to `tol_digit` significant digits.
 """
-Multiplication of series.
-"""
-function mul(array1D) 
-    m = 1
-    for i in array1D
-        m = m * i
+function unique_solutions(sols; tol_digit::Int=4)
+    result = unique(sols) do sol
+        round.(sol.u, sigdigits=tol_digit)
     end
-    return m
-end
-
-"""
-Multipication of series with type converting.
-"""
-function mul(type, array1D) 
-    m = 1
-    for i in array1D
-        m = m * i
-    end
-    return convert(type, m)
-end
-
-
-function Base.unique(sols :: T; tol_digit=4) where T<: EnsembleSolution
-    sols_ = map( u->trunc.(u, digits=tol_digit), sols.u  )
-    unique!(sols_)
-    return sols_
+    return result
 end
