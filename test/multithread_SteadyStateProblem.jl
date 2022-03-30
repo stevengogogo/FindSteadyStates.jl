@@ -1,5 +1,3 @@
-using Iterator
-
 @testset "Multithread for solving steady states: single value ODE function" begin
 
     atol = 1e-10
