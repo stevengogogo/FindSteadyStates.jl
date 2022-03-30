@@ -1,3 +1,5 @@
+using Iterator
+
 @testset "Multithread for solving steady states: single value ODE function" begin
 
     atol = 1e-10
@@ -9,7 +11,7 @@
     u_ss_real = zeros(length(us))
 
     sim = solve_SSODE_threads(de_func, us, p_)
-    res = collect(flatten(get_sol2array(sim)))
+    res = collect(Iterators.flatten(get_sol2array(sim)))
 
     @test isapprox(res, u_ss_real; atol=atol)
 
