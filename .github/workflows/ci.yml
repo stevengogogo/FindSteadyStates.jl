@@ -19,11 +19,18 @@ jobs:
   test:
     name: Julia ${{ matrix.version }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
         version: ["1.6", "1.7"]
         os: ["ubuntu-latest", "macOS-latest", "windows-latest"]
+        experimental: [ false ]
+        include:
+          - version: "~1.8.0-0"
+            os: ubuntu-latest
+            arch: x64
+            experimental: true
     steps:
       - uses: actions/checkout@v3
       - uses: julia-actions/setup-julia@v1
