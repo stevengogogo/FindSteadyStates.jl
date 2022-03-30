@@ -24,10 +24,10 @@ jobs:
         version: ["1.6", "1.7"]
         os: ["ubuntu-latest", "macOS-latest", "windows-latest"]
         experimental: [false]
-        include:
-          - version: "~1.8.0-0"
-            os: ubuntu-latest
-            experimental: true
+        # include:
+        #   - version: "~1.8.0-0"
+        #     os: ubuntu-latest
+        #     experimental: true
     steps:
       - uses: actions/checkout@v3
       - uses: julia-actions/setup-julia@v1

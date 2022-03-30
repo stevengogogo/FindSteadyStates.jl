@@ -67,33 +67,3 @@ end
 
 
 end
-
-
-
-@testset "Jacobian functions" begin
-
-    saddle_es = [1.0, -1.0, 2.0, 3.0]
-    saddle_es_damping = [1.0, -1.0, 2 + 1im, 2 - 1im]
-    stable_es_no_damping = [-1.0, -10, -1, -1]
-    stable_es_damping = [-1.0, -10, -1 + 10im, -1 - 10im]
-    neutral_point = [0 + 1im, 0 - 1im]
-
-    @test FindSteadyStates.is_stable(saddle_es) == false
-    @test FindSteadyStates.is_stable(saddle_es_damping) == false
-    @test FindSteadyStates.is_stable(stable_es_no_damping) == true
-    @test FindSteadyStates.is_stable(stable_es_damping) == true
-    @test FindSteadyStates.is_stable(neutral_point) == false
-
-    @test FindSteadyStates.is_unstable(saddle_es) == true
-    @test FindSteadyStates.is_unstable(saddle_es_damping) == true
-    @test FindSteadyStates.is_unstable(stable_es_no_damping) == false
-    @test FindSteadyStates.is_unstable(stable_es_damping) == false
-    @test FindSteadyStates.is_unstable(neutral_point) == true
-
-    @test FindSteadyStates.is_saddle(saddle_es) == true
-    @test FindSteadyStates.is_saddle(saddle_es_damping) == true
-    @test FindSteadyStates.is_saddle(stable_es_no_damping) == false
-    @test FindSteadyStates.is_saddle(stable_es_damping) == false
-    @test FindSteadyStates.is_saddle(neutral_point) == false
-
-end
