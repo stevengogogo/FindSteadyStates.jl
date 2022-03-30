@@ -10,9 +10,7 @@
 
     @testset "Length & size" begin
         #Base.length
-        @test Base.length(param_ranges) == convert(Integer, prod((i[end] for i in ranges)))
-        #Base.size
-        @test Base.size(param_ranges) == convert(Integer, prod((i[end] for i in ranges)))
+        @test Base.length(param_ranges) == Base.size(param_ranges)[1] == convert(Integer, prod((i[end] for i in ranges)))
     end
 end
 
