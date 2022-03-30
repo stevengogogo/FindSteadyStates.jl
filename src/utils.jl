@@ -13,8 +13,9 @@ unique_solutions(sols; tol_digit=4)
 Filter unique steady-state solutions `sols` with tolerance to `tol_digit` significant digits.
 """
 function unique_solutions(sols; tol_digit::Int=4)
-    result = unique(sols) do sol
+    result = map(sols) do sol
         round.(sol.u, sigdigits=tol_digit)
     end
+    unique!(result)
     return result
 end

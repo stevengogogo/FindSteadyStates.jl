@@ -21,8 +21,6 @@ include("model.jl")
 
 end
 
-
-
 @testset "Bistable model" begin
 
     @unpack func, p, u0 = bistable_model
